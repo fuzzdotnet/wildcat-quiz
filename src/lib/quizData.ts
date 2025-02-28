@@ -258,6 +258,56 @@ export const questions: Question[] = [
         }
       }
     ]
+  },
+  {
+    id: 6,
+    text: "What's your approach to mastering a skill?",
+    answers: [
+      {
+        text: "I focus intensely on one specific technique until I perfect it",
+        scores: {
+          'flat-headed-cat': 5,    // Extremely specialized hunter
+          'iberian-lynx': 4,       // Values precision
+          'manul': 4,              // Patient perfectionist
+          'fishing-cat': 2,        // More versatile
+          'clouded-leopard': 1,    // Prefers versatility
+          'andean-mountain-cat': 3  // Focused but adaptable
+        }
+      },
+      {
+        text: "I learn the basics and then experiment with different variations",
+        scores: {
+          'fishing-cat': 5,        // Adaptable and innovative
+          'clouded-leopard': 4,    // Creative approach
+          'andean-mountain-cat': 3, // Adaptable to conditions
+          'manul': 2,              // Prefers proven methods
+          'flat-headed-cat': 1,    // Very specialized
+          'iberian-lynx': 2        // Prefers precision
+        }
+      },
+      {
+        text: "I prefer to be versatile rather than specialized",
+        scores: {
+          'clouded-leopard': 5,    // Most versatile
+          'fishing-cat': 4,        // Adaptable hunter
+          'andean-mountain-cat': 3, // Adaptable to conditions
+          'manul': 1,              // Prefers specialization
+          'flat-headed-cat': 0,    // Highly specialized
+          'iberian-lynx': 2        // Specialized but adaptable
+        }
+      },
+      {
+        text: "I master traditional methods before innovating",
+        scores: {
+          'iberian-lynx': 5,       // Traditional but evolving
+          'manul': 5,              // Values proven methods
+          'andean-mountain-cat': 4, // Respects tradition
+          'flat-headed-cat': 3,    // Specialized traditional
+          'fishing-cat': 3,        // Balance of old and new
+          'clouded-leopard': 2     // Prefers innovation
+        }
+      }
+    ]
   }
 ];
 
