@@ -144,7 +144,11 @@ export default function QuizPage() {
 
         <AnimatePresence mode="wait">
           {showEmailForm ? (
-            <EmailForm onSubmit={handleEmailSubmit} onSkip={handleSkip} />
+            <EmailForm 
+              onSubmit={handleEmailSubmit} 
+              onSkip={handleSkip}
+              result={calculateResult(state.answers)}
+            />
           ) : (
             <Question
               question={currentQuestion}

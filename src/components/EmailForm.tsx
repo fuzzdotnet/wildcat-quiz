@@ -6,28 +6,44 @@ import { motion } from 'framer-motion';
 interface EmailFormProps {
   onSubmit: (email: string, newsletterOptIn: boolean) => void;
   onSkip: () => void;
+  result?: any;
 }
 
-export default function EmailForm({ onSubmit, onSkip }: EmailFormProps) {
+export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) {
   const [email, setEmail] = useState('');
   const [newsletterOptIn, setNewsletterOptIn] = useState(false);
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setIsSubmitting(true);
 
-    if (!email) {
-      setError('Please enter your email address');
-      return;
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          newsletterOptIn,
+          result,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to subscribe');
+      }
+
+      onSubmit(email, newsletterOptIn);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to subscribe');
+      setIsSubmitting(false);
     }
-
-    if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      setError('Please enter a valid email address');
-      return;
-    }
-
-    onSubmit(email, newsletterOptIn);
   };
 
   return (
@@ -54,6 +70,7 @@ export default function EmailForm({ onSubmit, onSkip }: EmailFormProps) {
               placeholder="your@email.com"
               className="input-field"
               aria-label="Email address"
+              disabled={isSubmitting}
             />
             {error && (
               <p className="mt-2 text-red-600 text-sm">{error}</p>
@@ -68,6 +85,7 @@ export default function EmailForm({ onSubmit, onSkip }: EmailFormProps) {
                 checked={newsletterOptIn}
                 onChange={(e) => setNewsletterOptIn(e.target.checked)}
                 className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                disabled={isSubmitting}
               />
             </div>
             <div className="ml-3">
@@ -85,13 +103,15 @@ export default function EmailForm({ onSubmit, onSkip }: EmailFormProps) {
             <button
               type="submit"
               className="btn-primary flex-1"
+              disabled={isSubmitting}
             >
-              Get My Results & Updates
+              {isSubmitting ? 'Saving...' : 'Get My Results & Updates'}
             </button>
             <button
               type="button"
               onClick={onSkip}
               className="btn-secondary flex-1"
+              disabled={isSubmitting}
             >
               Skip & See Results
             </button>
