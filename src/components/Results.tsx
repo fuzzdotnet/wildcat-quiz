@@ -2,9 +2,9 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { WildcatResult } from '@/types/quiz';
+import { WildcatResult, Question, WildcatType } from '@/types/quiz';
 import { ShareIcon, HeartIcon, StarIcon } from '@heroicons/react/24/outline';
-import { wildcatResults } from '@/lib/quizData';
+import { wildcatResults, questions } from '@/lib/quizData';
 
 const wildcatImages = {
   'manul': '/images/wildcats/manul.jpg',
@@ -142,45 +142,63 @@ interface ResultsProps {
 }
 
 export default function Results({ result, answers, onRetakeQuiz, onShare }: ResultsProps) {
-  // Calculate match scores for all wildcats
-  const allWildcatMatches: WildcatMatch[] = Object.entries(wildcatTraitDescriptions).map(([wildcatType, traits]) => {
-    const traitScores = Object.entries(traits).map(([traitName, trait]) => {
-      const matchedAnswers = trait.questionIds.filter(qId => {
-        const userAnswer = answers[qId];
-        return trait.answers.includes(userAnswer);
+  // Calculate match scores for all wildcats using the same logic as calculateResult
+  const scores: Record<WildcatType, number> = {
+    'manul': 0,
+    'iberian-lynx': 0,
+    'clouded-leopard': 0,
+    'flat-headed-cat': 0,
+    'andean-mountain-cat': 0,
+    'fishing-cat': 0
+  };
+
+  // Calculate scores using the same logic as calculateResult
+  Object.entries(answers).forEach(([questionId, answerIndex]) => {
+    const qId = parseInt(questionId);
+    const question = questions.find((q: Question) => q.id === qId);
+    if (question) {
+      const answer = question.answers[answerIndex];
+      Object.entries(answer.scores).forEach(([wildcat, score]) => {
+        let adjustedScore = score as number;
+        
+        // Adjust scores based on question type - same as calculateResult
+        if (qId <= 5) {
+          // Earlier questions: only count primary matches
+          adjustedScore = score === 2 ? 2 : 0;
+        } else if (qId === 6) {
+          // Environment question: stronger primary match
+          adjustedScore = score === 2 ? 3 : 0;
+        } else if (qId === 7) {
+          // Personality question: much stronger primary match
+          adjustedScore = score === 3 ? 4 : (score === 2 ? 1 : 0);
+        }
+        
+        scores[wildcat as WildcatType] += adjustedScore;
       });
-      
-      // More generous scoring - partial credit for matching any answers
-      const answerStrength = matchedAnswers.length > 0 ? 0.5 + (matchedAnswers.length / trait.questionIds.length) * 0.5 : 0;
-      const traitIntensity = wildcatTraitIntensities[wildcatType][traitName];
-      return {
-        name: traitName,
-        score: (answerStrength * traitIntensity) / 10
-      };
-    });
+    }
+  });
 
-    // Calculate overall match score for this wildcat
-    const totalScore = traitScores.reduce((sum, trait) => sum + trait.score, 0);
-    // Adjust the final score to be more generous
-    const rawScore = (totalScore / Object.keys(traits).length);
-    const adjustedScore = Math.round((rawScore * 0.7 + 0.3) * 100); // Minimum 30%, maximum 100%
-    
-    // Get top 2 matching traits for this wildcat
-    const topTraits = traitScores
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 2);
-
-    return {
-      type: wildcatType,
-      name: wildcatResults[wildcatType].name,
-      matchScore: adjustedScore,
-      topTraits
-    };
-  }).sort((a, b) => b.matchScore - a.matchScore);
+  // Convert scores to percentages and create matches array
+  const totalPossibleScore = 20; // Maximum possible score
+  const allWildcatMatches = Object.entries(scores)
+    .map(([type, score]) => ({
+      type,
+      name: wildcatResults[type as WildcatType].name,
+      matchScore: Math.round((score / totalPossibleScore) * 100),
+      // Get top traits based on the questions that contributed most to the score
+      topTraits: wildcatTraits[type as WildcatType].slice(0, 2).map(trait => ({
+        name: trait,
+        score: 1
+      }))
+    }))
+    .sort((a, b) => b.matchScore - a.matchScore);
 
   // Get primary match and next two closest matches
   const [primaryMatch, ...otherMatches] = allWildcatMatches;
-  const runnerUps = otherMatches.slice(0, 2);
+  // Filter out matches with the same type as primary match
+  const runnerUps = otherMatches
+    .filter(match => match.type !== result.type)
+    .slice(0, 2);
 
   return (
     <motion.div
