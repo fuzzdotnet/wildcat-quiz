@@ -1,385 +1,260 @@
 import { Question, WildcatResult } from '@/types/quiz';
 
+export type WildcatType = 'manul' | 'iberian-lynx' | 'clouded-leopard' | 'flat-headed-cat' | 'andean-mountain-cat' | 'fishing-cat';
+
 export const questions: Question[] = [
   {
-    id: 1,
-    text: "How would your friends describe your social style?",
+    id: 0,
+    text: "It's the weekend! What's your ideal way to spend it?",
     answers: [
       {
-        text: "I'm the life of the party and love being surrounded by people",
+        text: "Parkour! I love climbing and jumping between high places",
         scores: {
+          'clouded-leopard': 5,
           'fishing-cat': 2,
-          'clouded-leopard': 1,
           'manul': 0,
-          'iberian-lynx': 0,
+          'iberian-lynx': 3,
           'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
+          'andean-mountain-cat': 3
         }
       },
       {
-        text: "I have a small, tight-knit circle of close friends",
+        text: "Chilling in my cozy spot, watching the world go by",
         scores: {
+          'manul': 5,
           'iberian-lynx': 2,
-          'andean-mountain-cat': 1,
+          'andean-mountain-cat': 2,
+          'clouded-leopard': 1,
+          'flat-headed-cat': 3,
+          'fishing-cat': 2
+        }
+      },
+      {
+        text: "Swimming or water activities - I love being near water!",
+        scores: {
+          'fishing-cat': 5,
+          'flat-headed-cat': 5,
           'manul': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
+          'iberian-lynx': 1,
+          'clouded-leopard': 2,
+          'andean-mountain-cat': 1
         }
       },
       {
-        text: "I'm selective about who I spend time with",
+        text: "Going on a solo adventure in nature",
         scores: {
+          'andean-mountain-cat': 5,
+          'iberian-lynx': 4,
           'manul': 2,
+          'clouded-leopard': 3,
           'flat-headed-cat': 1,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
+          'fishing-cat': 3
+        }
+      }
+    ]
+  },
+  {
+    id: 1,
+    text: "What's your approach to solving problems?",
+    answers: [
+      {
+        text: "I'm patient and strategic - I wait for the perfect moment",
+        scores: {
+          'manul': 5,
+          'iberian-lynx': 5,
+          'andean-mountain-cat': 3,
+          'clouded-leopard': 2,
+          'flat-headed-cat': 5,
+          'fishing-cat': 4
         }
       },
       {
-        text: "I prefer my own company and need lots of alone time",
+        text: "I dive right in and figure it out as I go",
         scores: {
-          'manul': 2,
-          'andean-mountain-cat': 1,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
+          'fishing-cat': 4,
+          'flat-headed-cat': 2,
+          'clouded-leopard': 3,
+          'manul': 0,
+          'iberian-lynx': 2,
+          'andean-mountain-cat': 2
+        }
+      },
+      {
+        text: "I use my agility and quick thinking to overcome obstacles",
+        scores: {
+          'clouded-leopard': 5,
+          'iberian-lynx': 4,
+          'fishing-cat': 4,
+          'manul': 1,
+          'flat-headed-cat': 3,
+          'andean-mountain-cat': 3
         }
       }
     ]
   },
   {
     id: 2,
-    text: "When facing a challenge, you typically:",
+    text: "How do you handle challenging situations?",
     answers: [
       {
-        text: "Tackle it head-on with speed and strength",
-        scores: {
-          'fishing-cat': 2,
-          'iberian-lynx': 1,
-          'manul': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
-        }
-      },
-      {
-        text: "Analyze the situation carefully before acting",
-        scores: {
-          'flat-headed-cat': 2,
-          'clouded-leopard': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "Find a creative workaround",
-        scores: {
-          'clouded-leopard': 2,
-          'fishing-cat': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
-        }
-      },
-      {
-        text: "Patiently wait for the right moment",
+        text: "I'm tough and resilient - bring on the challenge!",
         scores: {
           'manul': 2,
+          'andean-mountain-cat': 3,
+          'iberian-lynx': 3,
+          'clouded-leopard': 1,
+          'flat-headed-cat': 1,
+          'fishing-cat': 2
+        }
+      },
+      {
+        text: "I'm adaptable and can handle whatever comes my way",
+        scores: {
+          'clouded-leopard': 3,
+          'fishing-cat': 3,
+          'flat-headed-cat': 3,
+          'manul': 1,
+          'iberian-lynx': 3,
+          'andean-mountain-cat': 3
+        }
+      },
+      {
+        text: "I prefer to stick to what I know I'm good at",
+        scores: {
+          'flat-headed-cat': 3,
+          'iberian-lynx': 1,
+          'manul': 3,
+          'clouded-leopard': 1,
           'andean-mountain-cat': 1,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
+          'fishing-cat': 2
         }
       }
     ]
   },
   {
     id: 3,
-    text: "Your ideal home would be:",
+    text: "What's your approach to food?",
     answers: [
       {
-        text: "A bustling city apartment with plenty of action nearby",
+        text: "I know what I like and stick to it - why change perfection?",
         scores: {
-          'fishing-cat': 2,
-          'clouded-leopard': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
+          'iberian-lynx': 5,
+          'flat-headed-cat': 5,
+          'manul': 4,
+          'clouded-leopard': 2,
+          'andean-mountain-cat': 4,
+          'fishing-cat': 2
+        }
+      },
+      {
+        text: "I'll try anything once - variety is the spice of life!",
+        scores: {
+          'fishing-cat': 4,
+          'clouded-leopard': 3,
           'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
-        }
-      },
-      {
-        text: "A comfortable house in a quiet suburb with a garden",
-        scores: {
-          'iberian-lynx': 2,
-          'flat-headed-cat': 1,
           'manul': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "A remote cabin surrounded by wilderness",
-        scores: {
-          'andean-mountain-cat': 2,
           'iberian-lynx': 1,
-          'manul': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
+          'andean-mountain-cat': 2
         }
       },
       {
-        text: "A cozy den hidden away from the world",
+        text: "I'm resourceful - I can make a meal out of anything",
         scores: {
-          'manul': 2,
-          'flat-headed-cat': 1,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
+          'andean-mountain-cat': 5,
+          'manul': 4,
+          'fishing-cat': 4,
+          'iberian-lynx': 2,
+          'clouded-leopard': 3,
+          'flat-headed-cat': 2
         }
       }
     ]
   },
   {
     id: 4,
-    text: "In difficult weather conditions, you:",
+    text: "What's your superpower?",
     answers: [
       {
-        text: "Retreat indoors until it passes",
+        text: "My incredible agility and balance",
         scores: {
+          'clouded-leopard': 5,
+          'iberian-lynx': 4,
+          'fishing-cat': 3,
+          'manul': 1,
           'flat-headed-cat': 2,
-          'fishing-cat': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'andean-mountain-cat': 0,
-          'clouded-leopard': 0
+          'andean-mountain-cat': 4
         }
       },
       {
-        text: "Adapt and continue your routine with minor adjustments",
+        text: "My ability to thrive where others can't",
         scores: {
+          'manul': 5,
+          'andean-mountain-cat': 5,
+          'flat-headed-cat': 4,
+          'iberian-lynx': 3,
           'clouded-leopard': 2,
-          'iberian-lynx': 1,
-          'manul': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
+          'fishing-cat': 3
         }
       },
       {
-        text: "Embrace it - harsh conditions bring out your resilience",
+        text: "My focus and determination",
         scores: {
-          'manul': 2,
-          'andean-mountain-cat': 2,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
+          'iberian-lynx': 5,
+          'flat-headed-cat': 5,
+          'fishing-cat': 4,
+          'manul': 4,
+          'clouded-leopard': 3,
+          'andean-mountain-cat': 4
         }
       },
       {
-        text: "Use it to your advantage somehow",
+        text: "My versatility and adaptability",
         scores: {
-          'fishing-cat': 2,
-          'clouded-leopard': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
+          'fishing-cat': 3,
+          'clouded-leopard': 5,
+          'flat-headed-cat': 1,
+          'manul': 1,
+          'iberian-lynx': 2,
+          'andean-mountain-cat': 3
         }
       }
     ]
   },
   {
     id: 5,
-    text: "When it comes to trying new foods, you are:",
+    text: "When are you at your best?",
     answers: [
       {
-        text: "Adventurous - I'll try anything once",
+        text: "Late at night when everything is quiet",
         scores: {
-          'clouded-leopard': 2,
-          'fishing-cat': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
-        }
-      },
-      {
-        text: "Particular about what I like, but occasionally try new things",
-        scores: {
-          'iberian-lynx': 2,
-          'andean-mountain-cat': 1,
-          'manul': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "Cautious - I need to know what's in it first",
-        scores: {
-          'flat-headed-cat': 2,
-          'iberian-lynx': 1,
-          'manul': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "A creature of habit with my favorite meals",
-        scores: {
-          'manul': 2,
-          'flat-headed-cat': 1,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
-        }
-      }
-    ]
-  },
-  {
-    id: 6,
-    text: "What's your ideal environment for getting things done?",
-    answers: [
-      {
-        text: "High up with a great view of everything below",
-        scores: {
-          'clouded-leopard': 2,
-          'andean-mountain-cat': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "Near water or in a humid environment",
-        scores: {
-          'fishing-cat': 2,
-          'flat-headed-cat': 2,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0
-        }
-      },
-      {
-        text: "Wide open spaces with room to roam",
-        scores: {
-          'iberian-lynx': 2,
-          'andean-mountain-cat': 1,
-          'manul': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "A protected, cozy space away from distractions",
-        scores: {
-          'manul': 2,
-          'flat-headed-cat': 1,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "Anywhere as long as there are resources nearby",
-        scores: {
-          'fishing-cat': 2,
-          'clouded-leopard': 1,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
-        }
-      }
-    ]
-  },
-  {
-    id: 7,
-    text: "Your most dominant personality trait is:",
-    answers: [
-      {
-        text: "Resilience - I can weather any storm",
-        scores: {
+          'flat-headed-cat': 5,
+          'clouded-leopard': 5,
+          'fishing-cat': 4,
           'manul': 3,
-          'andean-mountain-cat': 2,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
+          'iberian-lynx': 2,
+          'andean-mountain-cat': 2
         }
       },
       {
-        text: "Adaptability - I thrive in changing circumstances",
+        text: "Early morning or evening - the transition times",
         scores: {
+          'manul': 5,
+          'iberian-lynx': 5,
+          'andean-mountain-cat': 4,
           'clouded-leopard': 3,
-          'fishing-cat': 2,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0
-        }
-      },
-      {
-        text: "Mystery - People find me intriguing and hard to read",
-        scores: {
           'flat-headed-cat': 3,
-          'manul': 2,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
+          'fishing-cat': 3
         }
       },
       {
-        text: "Intelligence - I rely on my wits to navigate challenges",
+        text: "Whenever opportunity strikes - I'm always ready!",
         scores: {
-          'iberian-lynx': 3,
-          'clouded-leopard': 2,
-          'manul': 0,
-          'flat-headed-cat': 0,
-          'andean-mountain-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "Independence - I forge my own path",
-        scores: {
-          'andean-mountain-cat': 3,
-          'manul': 2,
-          'iberian-lynx': 0,
-          'clouded-leopard': 0,
-          'flat-headed-cat': 0,
-          'fishing-cat': 0
-        }
-      },
-      {
-        text: "Patience - Good things come to those who wait",
-        scores: {
-          'fishing-cat': 3,
+          'fishing-cat': 2,
+          'clouded-leopard': 3,
           'flat-headed-cat': 2,
-          'manul': 0,
-          'iberian-lynx': 0,
-          'andean-mountain-cat': 0,
-          'clouded-leopard': 0
+          'manul': 1,
+          'iberian-lynx': 2,
+          'andean-mountain-cat': 3
         }
       }
     ]
@@ -474,7 +349,7 @@ export const wildcatResults: Record<string, WildcatResult> = {
 };
 
 export const calculateResult = (answers: Record<number, number>): WildcatResult => {
-  const scores: Record<string, number> = {
+  const scores: Record<WildcatType, number> = {
     'manul': 0,
     'iberian-lynx': 0,
     'clouded-leopard': 0,
@@ -483,33 +358,76 @@ export const calculateResult = (answers: Record<number, number>): WildcatResult 
     'fishing-cat': 0
   };
 
-  // Calculate scores for each wildcat based on answers
+  // Calculate actual scores based on answers
   Object.entries(answers).forEach(([questionId, answerIndex]) => {
     const qId = parseInt(questionId);
     const question = questions.find(q => q.id === qId);
     if (question) {
       const answer = question.answers[answerIndex];
+      console.log(`Question ${qId}:`, {
+        questionText: question.text,
+        selectedAnswer: answer.text,
+        scores: answer.scores
+      });
       Object.entries(answer.scores).forEach(([wildcat, score]) => {
-        let adjustedScore = score;
-        
-        // Adjust scores based on question type
-        if (qId <= 5) {
-          // Earlier questions: only count primary matches
-          adjustedScore = score === 2 ? 2 : 0;
-        } else if (qId === 6) {
-          // Environment question: stronger primary match
-          adjustedScore = score === 2 ? 3 : 0;
-        } else if (qId === 7) {
-          // Personality question: much stronger primary match
-          adjustedScore = score === 3 ? 4 : (score === 2 ? 1 : 0);
-        }
-        
-        scores[wildcat] += adjustedScore;
+        scores[wildcat as WildcatType] += score;
       });
     }
   });
 
-  // Find the wildcat with the highest score
-  const winner = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
-  return wildcatResults[winner];
+  console.log('Raw scores after all answers:', scores);
+
+  // Calculate maximum possible scores for each wildcat
+  const maxPossibleScores: Record<WildcatType, number> = {
+    'manul': 0,
+    'iberian-lynx': 0,
+    'clouded-leopard': 0,
+    'flat-headed-cat': 0,
+    'andean-mountain-cat': 0,
+    'fishing-cat': 0
+  };
+
+  // For each question, add the highest possible score for each wildcat
+  questions.forEach(question => {
+    Object.keys(maxPossibleScores).forEach(wildcat => {
+      const maxScoreForQuestion = Math.max(
+        ...question.answers.map(answer => answer.scores[wildcat as WildcatType])
+      );
+      maxPossibleScores[wildcat as WildcatType] += maxScoreForQuestion;
+      console.log(`Max score for ${wildcat} in question "${question.text}":`, maxScoreForQuestion);
+    });
+  });
+
+  console.log('Maximum possible scores:', maxPossibleScores);
+
+  // Calculate percentages and sort
+  const scorePercentages = Object.entries(scores).map(([wildcat, score]) => {
+    const maxPossible = maxPossibleScores[wildcat as WildcatType];
+    const percentage = Math.round((score / maxPossible) * 100);
+    console.log(`${wildcat} calculation:`, {
+      score,
+      maxPossible,
+      percentage: `${percentage}%`
+    });
+    
+    return {
+      wildcat,
+      score,
+      maxPossible,
+      percentage
+    };
+  });
+
+  // Sort by percentage descending
+  scorePercentages.sort((a, b) => b.percentage - a.percentage);
+
+  // Log final results
+  console.log('Final results:', scorePercentages.map(sp => ({
+    wildcat: sp.wildcat,
+    percentage: `${sp.percentage}%`,
+    score: `${sp.score}/${sp.maxPossible}`
+  })));
+
+  // Return the wildcat with the highest percentage
+  return wildcatResults[scorePercentages[0].wildcat as WildcatType];
 }; 

@@ -141,6 +141,170 @@ interface ResultsProps {
   onShare: () => void;
 }
 
+const wildcatTraitScores = {
+  'manul': {
+    'Patient': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 3, answerIndex: 0, score: 4 }   // stick to what I like
+    ],
+    'Resilient': [
+      { questionId: 4, answerIndex: 1, score: 5 },  // thrive where others can't
+      { questionId: 2, answerIndex: 0, score: 2 }   // tough and resilient
+    ],
+    'Observant': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 0, answerIndex: 1, score: 5 }   // chilling and watching
+    ],
+    'Independent': [
+      { questionId: 0, answerIndex: 1, score: 5 },  // chilling in my spot
+      { questionId: 2, answerIndex: 2, score: 3 }   // stick to what I know
+    ],
+    'Methodical': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 4, answerIndex: 2, score: 4 }   // focus and determination
+    ]
+  },
+  'iberian-lynx': {
+    'Precise': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 4, answerIndex: 2, score: 5 }   // focus and determination
+    ],
+    'Strategic': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 4, answerIndex: 2, score: 5 }   // focus and determination
+    ],
+    'Selective': [
+      { questionId: 3, answerIndex: 0, score: 5 },  // know what I like
+      { questionId: 4, answerIndex: 2, score: 5 }   // focus and determination
+    ],
+    'Agile': [
+      { questionId: 0, answerIndex: 0, score: 3 },  // parkour
+      { questionId: 4, answerIndex: 0, score: 4 }   // agility and balance
+    ],
+    'Determined': [
+      { questionId: 2, answerIndex: 0, score: 3 },  // tough and resilient
+      { questionId: 4, answerIndex: 2, score: 5 }   // focus and determination
+    ]
+  },
+  'clouded-leopard': {
+    'Agile': [
+      { questionId: 0, answerIndex: 0, score: 5 },  // parkour
+      { questionId: 4, answerIndex: 0, score: 5 }   // agility and balance
+    ],
+    'Adaptable': [
+      { questionId: 2, answerIndex: 1, score: 3 },  // adaptable
+      { questionId: 4, answerIndex: 3, score: 5 }   // versatility and adaptability
+    ],
+    'Versatile': [
+      { questionId: 4, answerIndex: 3, score: 5 },  // versatility and adaptability
+      { questionId: 3, answerIndex: 1, score: 3 }   // try anything once
+    ],
+    'Creative': [
+      { questionId: 1, answerIndex: 2, score: 5 },  // agility and quick thinking
+      { questionId: 4, answerIndex: 3, score: 5 }   // versatility and adaptability
+    ],
+    'Mysterious': [
+      { questionId: 5, answerIndex: 0, score: 5 },  // late at night
+      { questionId: 2, answerIndex: 1, score: 3 }   // adaptable
+    ]
+  },
+  'flat-headed-cat': {
+    'Specialized': [
+      { questionId: 0, answerIndex: 2, score: 5 },  // water activities
+      { questionId: 3, answerIndex: 0, score: 5 }   // stick to what I like
+    ],
+    'Focused': [
+      { questionId: 4, answerIndex: 2, score: 5 },  // focus and determination
+      { questionId: 1, answerIndex: 0, score: 5 }   // patient and strategic
+    ],
+    'Methodical': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 4, answerIndex: 2, score: 5 }   // focus and determination
+    ],
+    'Patient': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 0, answerIndex: 2, score: 5 }   // water activities
+    ],
+    'Detail-oriented': [
+      { questionId: 4, answerIndex: 2, score: 5 },  // focus and determination
+      { questionId: 3, answerIndex: 0, score: 5 }   // know what I like
+    ]
+  },
+  'andean-mountain-cat': {
+    'Resilient': [
+      { questionId: 4, answerIndex: 1, score: 5 },  // thrive where others can't
+      { questionId: 2, answerIndex: 0, score: 3 }   // tough and resilient
+    ],
+    'Determined': [
+      { questionId: 4, answerIndex: 2, score: 4 },  // focus and determination
+      { questionId: 2, answerIndex: 0, score: 3 }   // tough and resilient
+    ],
+    'Independent': [
+      { questionId: 0, answerIndex: 3, score: 5 },  // solo adventure
+      { questionId: 2, answerIndex: 2, score: 1 }   // stick to what I know
+    ],
+    'Adaptable': [
+      { questionId: 2, answerIndex: 1, score: 3 },  // adaptable
+      { questionId: 4, answerIndex: 3, score: 3 }   // versatility and adaptability
+    ],
+    'Resourceful': [
+      { questionId: 3, answerIndex: 2, score: 5 },  // resourceful
+      { questionId: 4, answerIndex: 1, score: 5 }   // thrive where others can't
+    ]
+  },
+  'fishing-cat': {
+    'Adventurous': [
+      { questionId: 0, answerIndex: 2, score: 5 },  // water activities
+      { questionId: 3, answerIndex: 1, score: 4 }   // try anything once
+    ],
+    'Resourceful': [
+      { questionId: 3, answerIndex: 2, score: 4 },  // resourceful
+      { questionId: 0, answerIndex: 2, score: 5 }   // water activities
+    ],
+    'Patient': [
+      { questionId: 1, answerIndex: 0, score: 4 },  // patient and strategic
+      { questionId: 0, answerIndex: 2, score: 5 }   // water activities
+    ],
+    'Opportunistic': [
+      { questionId: 1, answerIndex: 1, score: 4 },  // dive right in
+      { questionId: 3, answerIndex: 1, score: 4 }   // try anything once
+    ],
+    'Adaptable': [
+      { questionId: 2, answerIndex: 1, score: 3 },  // adaptable
+      { questionId: 4, answerIndex: 3, score: 3 }   // versatility and adaptability
+    ]
+  }
+};
+
+// Calculate trait scores based on user's answers
+const calculateTraitScores = (type: WildcatType, userAnswers: Record<number, number>) => {
+  const traitScores = new Map<string, number>();
+  const traits = wildcatTraitScores[type];
+  
+  Object.entries(traits).forEach(([trait, questions]) => {
+    let traitScore = 0;
+    let maxPossibleScore = 0;
+    
+    questions.forEach(q => {
+      maxPossibleScore += q.score;
+      if (userAnswers[q.questionId] === q.answerIndex) {
+        traitScore += q.score;
+      }
+    });
+    
+    const percentage = Math.round((traitScore / maxPossibleScore) * 100);
+    traitScores.set(trait, percentage);
+  });
+  
+  return Array.from(traitScores.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([trait, score]) => ({
+      name: trait,
+      score
+    }));
+};
+
 export default function Results({ result, answers, onRetakeQuiz, onShare }: ResultsProps) {
   // Calculate match scores for all wildcats using the same logic as calculateResult
   const scores: Record<WildcatType, number> = {
@@ -159,33 +323,37 @@ export default function Results({ result, answers, onRetakeQuiz, onShare }: Resu
     if (question) {
       const answer = question.answers[answerIndex];
       Object.entries(answer.scores).forEach(([wildcat, score]) => {
-        let adjustedScore = score as number;
-        
-        // Adjust scores based on question type - same as calculateResult
-        if (qId <= 5) {
-          // Earlier questions: only count primary matches
-          adjustedScore = score === 2 ? 2 : 0;
-        } else if (qId === 6) {
-          // Environment question: stronger primary match
-          adjustedScore = score === 2 ? 3 : 0;
-        } else if (qId === 7) {
-          // Personality question: much stronger primary match
-          adjustedScore = score === 3 ? 4 : (score === 2 ? 1 : 0);
-        }
-        
-        scores[wildcat as WildcatType] += adjustedScore;
+        scores[wildcat as WildcatType] += score;
       });
     }
   });
 
+  // Calculate maximum possible scores for each wildcat
+  const maxPossibleScores: Record<WildcatType, number> = {
+    'manul': 0,
+    'iberian-lynx': 0,
+    'clouded-leopard': 0,
+    'flat-headed-cat': 0,
+    'andean-mountain-cat': 0,
+    'fishing-cat': 0
+  };
+
+  // For each question, add the highest possible score for each wildcat
+  questions.forEach(question => {
+    Object.keys(maxPossibleScores).forEach(wildcat => {
+      const maxScoreForQuestion = Math.max(
+        ...question.answers.map(answer => answer.scores[wildcat as WildcatType])
+      );
+      maxPossibleScores[wildcat as WildcatType] += maxScoreForQuestion;
+    });
+  });
+
   // Convert scores to percentages and create matches array
-  const totalPossibleScore = 20; // Maximum possible score
   const allWildcatMatches = Object.entries(scores)
     .map(([type, score]) => ({
       type,
       name: wildcatResults[type as WildcatType].name,
-      matchScore: Math.round((score / totalPossibleScore) * 100),
-      // Get top traits based on the questions that contributed most to the score
+      matchScore: Math.round((score / maxPossibleScores[type as WildcatType]) * 100),
       topTraits: wildcatTraits[type as WildcatType].slice(0, 2).map(trait => ({
         name: trait,
         score: 1
@@ -195,10 +363,20 @@ export default function Results({ result, answers, onRetakeQuiz, onShare }: Resu
 
   // Get primary match and next two closest matches
   const [primaryMatch, ...otherMatches] = allWildcatMatches;
-  // Filter out matches with the same type as primary match
+  // Filter out matches with the same type as primary match and calculate their traits
   const runnerUps = otherMatches
     .filter(match => match.type !== result.type)
-    .slice(0, 2);
+    .slice(0, 2)
+    .map(match => ({
+      ...match,
+      topTraits: calculateTraitScores(match.type as WildcatType, answers)
+    }));
+
+  // Calculate traits for primary match
+  const primaryMatchWithTraits = {
+    ...primaryMatch,
+    topTraits: calculateTraitScores(primaryMatch.type as WildcatType, answers)
+  };
 
   return (
     <motion.div
@@ -254,16 +432,16 @@ export default function Results({ result, answers, onRetakeQuiz, onShare }: Resu
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-primary-700 font-medium">Match with {result.name}</span>
-                  <span className="text-primary-600 font-bold">{primaryMatch.matchScore}%</span>
+                  <span className="text-primary-600 font-bold">{primaryMatchWithTraits.matchScore}%</span>
                 </div>
                 <div className="w-full bg-primary-100 rounded-full h-2">
                   <div 
                     className="bg-primary-500 h-2 rounded-full" 
-                    style={{ width: `${primaryMatch.matchScore}%` }}
+                    style={{ width: `${primaryMatchWithTraits.matchScore}%` }}
                   />
                 </div>
                 <p className="text-primary-600 mt-2 text-sm">
-                  Your strongest matching traits: {primaryMatch.topTraits.map(t => t.name).join(' & ')}
+                  Your strongest matching traits: {primaryMatchWithTraits.topTraits.map(t => `${t.name} (${t.score}%)`).join(' & ')}
                 </p>
               </div>
 
