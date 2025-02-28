@@ -18,6 +18,14 @@ export default function Home() {
               Take this quick quiz to discover your wildcat twin and learn to protect these amazing felines.
             </p>
 
+            <Link 
+              href="/quiz"
+              className="btn-primary inline-flex items-center text-lg mb-8"
+            >
+              Find My Wildcat Twin
+              <ArrowRightIcon className="w-5 h-5 ml-2" />
+            </Link>
+
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8">
               <Image
                 src="/images/landing/hero.jpg"
@@ -32,14 +40,6 @@ export default function Home() {
             <p className="text-primary-700 mb-12">
               The world's wildcats face unprecedented threats, from habitat loss to poaching. By discovering which rare feline shares your personality traits, you'll forge a personal connection with conservation efforts. Take just 2 minutes to find your wildcat twin and discover how you can make a difference.
             </p>
-
-            <Link 
-              href="/quiz"
-              className="btn-primary inline-flex items-center text-lg"
-            >
-              Find My Wildcat Twin
-              <ArrowRightIcon className="w-5 h-5 ml-2" />
-            </Link>
           </div>
         </div>
       </div>
