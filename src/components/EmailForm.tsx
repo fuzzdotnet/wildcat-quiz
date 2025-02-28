@@ -67,7 +67,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         </h2>
         
         <p className="text-primary-600 mb-6 text-center">
-          Enter your email to reveal which endangered wildcat shares your personality and get updates about conservation efforts.
+          Enter your email to reveal which endangered wildcat shares your personality and get updates about cool animals.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
