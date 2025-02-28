@@ -94,7 +94,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             </div>
           </div>
 
-          <div className="text-xs text-primary-500 mb-6">
+          <div className="text-xs text-primary-500 mb-6 text-center">
             We respect your privacy. Your email is safe with us and will never be shared or sold. You can unsubscribe anytime.
           </div>
 
