@@ -522,13 +522,137 @@ interface WildcatTraitScores {
 
 const wildcatTraitScores: WildcatTraitScores = {
   'manul': {
+    'Self-reliant': [
+      { questionId: 0, answerIndex: 1, score: 5 },  // chilling in my spot
+      { questionId: 6, answerIndex: 3, score: 5 }   // master traditional methods
+    ],
     'Patient': [
       { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
-      { questionId: 3, answerIndex: 0, score: 4 }   // stick to what I like
+      { questionId: 5, answerIndex: 1, score: 5 }   // early morning or evening
     ],
-    // ... rest of manul traits ...
+    'Resilient': [
+      { questionId: 2, answerIndex: 0, score: 5 },  // tough and resilient
+      { questionId: 4, answerIndex: 1, score: 5 }   // thrive where others can't
+    ],
+    'Independent': [
+      { questionId: 0, answerIndex: 1, score: 5 },  // chilling in my spot
+      { questionId: 3, answerIndex: 0, score: 4 }   // know what I like
+    ],
+    'Observant': [
+      { questionId: 5, answerIndex: 1, score: 5 },  // early morning or evening
+      { questionId: 1, answerIndex: 0, score: 5 }   // patient and strategic
+    ]
   },
-  // ... rest of wildcats ...
+  'iberian-lynx': {
+    'Selective': [
+      { questionId: 3, answerIndex: 0, score: 5 },  // know what I like
+      { questionId: 6, answerIndex: 0, score: 4 }   // focus on specific technique
+    ],
+    'Precise': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 4, answerIndex: 2, score: 5 }   // focus and determination
+    ],
+    'Strategic': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 6, answerIndex: 3, score: 5 }   // master traditional methods
+    ],
+    'Confident': [
+      { questionId: 2, answerIndex: 0, score: 3 },  // tough and resilient
+      { questionId: 4, answerIndex: 2, score: 5 }   // focus and determination
+    ],
+    'Dignified': [
+      { questionId: 5, answerIndex: 1, score: 5 },  // early morning or evening
+      { questionId: 0, answerIndex: 3, score: 4 }   // solo adventure
+    ]
+  },
+  'clouded-leopard': {
+    'Adaptable': [
+      { questionId: 2, answerIndex: 1, score: 3 },  // adaptable
+      { questionId: 4, answerIndex: 3, score: 5 }   // versatility and adaptability
+    ],
+    'Creative': [
+      { questionId: 6, answerIndex: 2, score: 5 },  // versatile rather than specialized
+      { questionId: 1, answerIndex: 2, score: 5 }   // agility and quick thinking
+    ],
+    'Versatile': [
+      { questionId: 4, answerIndex: 3, score: 5 },  // versatility and adaptability
+      { questionId: 6, answerIndex: 2, score: 5 }   // versatile rather than specialized
+    ],
+    'Mysterious': [
+      { questionId: 5, answerIndex: 0, score: 5 },  // late at night
+      { questionId: 0, answerIndex: 0, score: 5 }   // parkour
+    ],
+    'Agile': [
+      { questionId: 0, answerIndex: 0, score: 5 },  // parkour
+      { questionId: 4, answerIndex: 0, score: 5 }   // agility and balance
+    ]
+  },
+  'flat-headed-cat': {
+    'Specialized': [
+      { questionId: 0, answerIndex: 2, score: 5 },  // water activities
+      { questionId: 6, answerIndex: 0, score: 5 }   // focus on specific technique
+    ],
+    'Focused': [
+      { questionId: 4, answerIndex: 2, score: 5 },  // focus and determination
+      { questionId: 6, answerIndex: 0, score: 5 }   // focus on specific technique
+    ],
+    'Methodical': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 6, answerIndex: 0, score: 5 }   // focus on specific technique
+    ],
+    'Resourceful': [
+      { questionId: 3, answerIndex: 2, score: 5 },  // resourceful
+      { questionId: 0, answerIndex: 2, score: 5 }   // water activities
+    ],
+    'Detail-oriented': [
+      { questionId: 4, answerIndex: 2, score: 5 },  // focus and determination
+      { questionId: 3, answerIndex: 0, score: 5 }   // know what I like
+    ]
+  },
+  'andean-mountain-cat': {
+    'Independent': [
+      { questionId: 0, answerIndex: 3, score: 5 },  // solo adventure
+      { questionId: 4, answerIndex: 1, score: 5 }   // thrive where others can't
+    ],
+    'Determined': [
+      { questionId: 4, answerIndex: 1, score: 5 },  // thrive where others can't
+      { questionId: 2, answerIndex: 0, score: 3 }   // tough and resilient
+    ],
+    'Resilient': [
+      { questionId: 4, answerIndex: 1, score: 5 },  // thrive where others can't
+      { questionId: 2, answerIndex: 0, score: 3 }   // tough and resilient
+    ],
+    'Adaptable': [
+      { questionId: 2, answerIndex: 1, score: 3 },  // adaptable
+      { questionId: 4, answerIndex: 3, score: 3 }   // versatility and adaptability
+    ],
+    'Trailblazing': [
+      { questionId: 0, answerIndex: 3, score: 5 },  // solo adventure
+      { questionId: 4, answerIndex: 1, score: 5 }   // thrive where others can't
+    ]
+  },
+  'fishing-cat': {
+    'Resourceful': [
+      { questionId: 3, answerIndex: 2, score: 4 },  // resourceful
+      { questionId: 0, answerIndex: 2, score: 5 }   // water activities
+    ],
+    'Adventurous': [
+      { questionId: 0, answerIndex: 2, score: 5 },  // water activities
+      { questionId: 1, answerIndex: 1, score: 4 }   // dive right in
+    ],
+    'Patient': [
+      { questionId: 1, answerIndex: 0, score: 4 },  // patient and strategic
+      { questionId: 4, answerIndex: 2, score: 4 }   // focus and determination
+    ],
+    'Persistent': [
+      { questionId: 6, answerIndex: 1, score: 5 },  // experiment with variations
+      { questionId: 4, answerIndex: 2, score: 4 }   // focus and determination
+    ],
+    'Opportunistic': [
+      { questionId: 5, answerIndex: 2, score: 2 },  // whenever opportunity strikes
+      { questionId: 3, answerIndex: 1, score: 4 }   // try anything once
+    ]
+  }
 };
 
 // Calculate trait scores based on user's answers
