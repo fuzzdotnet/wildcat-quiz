@@ -11,7 +11,7 @@ const VALID_RESULTS = [
   'fishing-cat'
 ] as const;
 
-type WildcatResult = typeof VALID_RESULTS[number];
+type WildcatType = typeof VALID_RESULTS[number];
 
 // Rate limiting configuration
 const rateLimit = {
@@ -44,8 +44,8 @@ function sanitizeEmail(email: string): string {
   return email.trim().toLowerCase().slice(0, 254); // RFC 5321
 }
 
-function validateResult(result: unknown): result is WildcatResult {
-  return typeof result === 'string' && VALID_RESULTS.includes(result as WildcatResult);
+function validateResult(result: unknown): result is WildcatType {
+  return typeof result === 'string' && VALID_RESULTS.includes(result as WildcatType);
 }
 
 export async function POST(request: Request) {

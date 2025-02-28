@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { WildcatResult } from '@/types/quiz';
 
 interface EmailFormProps {
   onSubmit: (email: string, newsletterOptIn: boolean) => void;
   onSkip: () => void;
-  result?: any;
+  result: WildcatResult;
 }
 
 export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) {
@@ -29,7 +30,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         body: JSON.stringify({
           email,
           newsletterOptIn,
-          result,
+          result: result.type,
         }),
       });
 
