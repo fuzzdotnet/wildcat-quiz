@@ -1,7 +1,7 @@
-import type { Metadata } from 'next';
+import './globals.css'
+import { Metadata } from 'next'
 import { Inter, Merriweather } from 'next/font/google';
 import { QuizProvider } from '@/context/QuizContext';
-import '@/styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const merriweather = Merriweather({
@@ -11,14 +11,10 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: 'Wildcat Personality Quiz | FUZZ',
-  description: 'Discover which endangered wildcat matches your personality and learn how you can help protect these amazing animals.',
-  openGraph: {
-    title: 'Wildcat Personality Quiz | FUZZ',
-    description: 'Discover which endangered wildcat matches your personality and learn how you can help protect these amazing animals.',
-    type: 'website',
-  },
-};
+  title: 'Wildcat Quiz - Find Your Spirit Animal',
+  description: 'Discover which rare wildcat species matches your personality through our interactive quiz.',
+  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+}
 
 export default function RootLayout({
   children,

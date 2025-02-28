@@ -12,10 +12,6 @@ const nextConfig = {
         hostname: 'placekitten.com'
       }
     ]
-  },
-  // Add metadata base URL configuration
-  metadata: {
-    metadataBase: new URL('http://localhost:3000')
   }
 }
 
