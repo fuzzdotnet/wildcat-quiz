@@ -1,7 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { QuizState, WildcatResult } from '@/types/quiz';
+import { questions } from '@/lib/quizData';
 
 type QuizAction =
   | { type: 'SET_ANSWER'; questionId: number; answerIndex: number }
@@ -32,7 +33,7 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
     case 'NEXT_QUESTION':
       return {
         ...state,
-        currentQuestionIndex: state.currentQuestionIndex + 1,
+        currentQuestionIndex: Math.min(state.currentQuestionIndex + 1, questions.length - 1),
       };
     case 'PREVIOUS_QUESTION':
       return {
@@ -55,11 +56,15 @@ const quizReducer = (state: QuizState, action: QuizAction): QuizState => {
         newsletterOptIn: action.optIn,
       };
     case 'RESET_QUIZ':
-      return initialState;
+      return {
+        ...initialState,
+        currentQuestionIndex: 0,
+        answers: {},
+      };
     case 'SET_CURRENT_QUESTION':
       return {
         ...state,
-        currentQuestionIndex: action.currentQuestionIndex,
+        currentQuestionIndex: Math.min(Math.max(0, action.currentQuestionIndex), questions.length - 1),
       };
     default:
       return state;
@@ -75,6 +80,11 @@ const QuizContext = createContext<QuizContextType | undefined>(undefined);
 
 export const QuizProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(quizReducer, initialState);
+
+  // Debug logging for state changes
+  useEffect(() => {
+    console.log('QuizContext state updated:', state);
+  }, [state]);
 
   return (
     <QuizContext.Provider value={{ state, dispatch }}>

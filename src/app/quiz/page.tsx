@@ -16,24 +16,43 @@ export default function QuizPage() {
   const router = useRouter();
   const { state, dispatch } = useQuiz();
 
+  // Initialize quiz state
   useEffect(() => {
-    // Load progress from localStorage if it exists
     const savedProgress = localStorage.getItem('quizProgress');
-    if (savedProgress) {
-      const { answers, currentQuestionIndex } = JSON.parse(savedProgress);
-      Object.entries(answers).forEach(([questionId, answerIndex]) => {
-        dispatch({
-          type: 'SET_ANSWER',
-          questionId: parseInt(questionId),
-          answerIndex: answerIndex as number,
+    if (!savedProgress) {
+      console.log('No saved progress found, starting fresh quiz');
+      dispatch({ type: 'RESET_QUIZ' });
+    } else {
+      console.log('Found saved progress:', savedProgress);
+      try {
+        const { answers, currentQuestionIndex } = JSON.parse(savedProgress);
+        Object.entries(answers).forEach(([questionId, answerIndex]) => {
+          dispatch({
+            type: 'SET_ANSWER',
+            questionId: parseInt(questionId),
+            answerIndex: answerIndex as number,
+          });
         });
-      });
-      dispatch({ type: 'SET_CURRENT_QUESTION', currentQuestionIndex });
+        dispatch({ type: 'SET_CURRENT_QUESTION', currentQuestionIndex });
+      } catch (error) {
+        console.error('Error loading saved progress:', error);
+        localStorage.removeItem('quizProgress');
+        dispatch({ type: 'RESET_QUIZ' });
+      }
     }
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
-    // Save progress to localStorage
+    console.log('Current state:', {
+      currentQuestionIndex: state.currentQuestionIndex,
+      answers: state.answers,
+      questions: questions,
+      currentQuestion: questions[state.currentQuestionIndex]
+    });
+  }, [state]);
+
+  // Save progress when it changes
+  useEffect(() => {
     if (Object.keys(state.answers).length > 0) {
       localStorage.setItem(
         'quizProgress',
@@ -47,10 +66,25 @@ export default function QuizPage() {
 
   const currentQuestion = questions[state.currentQuestionIndex];
   const isLastQuestion = state.currentQuestionIndex === questions.length - 1;
-  const showEmailForm = isLastQuestion && state.answers[currentQuestion.id] !== undefined;
+  const showEmailForm = isLastQuestion && currentQuestion && state.answers[currentQuestion.id] !== undefined;
   const showResults = state.result !== undefined;
 
+  // Show loading state if questions aren't loaded yet
+  if (!questions || questions.length === 0) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen bg-gradient-to-b from-primary-50 to-primary-100">
+          <div className="container mx-auto px-4 py-12 text-center">
+            <div className="animate-pulse">Loading quiz...</div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   const handleAnswerSelect = (answerIndex: number) => {
+    if (!currentQuestion) return;
     dispatch({
       type: 'SET_ANSWER',
       questionId: currentQuestion.id,
@@ -155,16 +189,16 @@ export default function QuizPage() {
                 onSkip={handleSkip}
                 result={calculateResult(state.answers)}
               />
-            ) : (
+            ) : currentQuestion ? (
               <Question
                 question={currentQuestion}
                 selectedAnswer={state.answers[currentQuestion.id]}
                 onAnswerSelect={handleAnswerSelect}
               />
-            )}
+            ) : null}
           </AnimatePresence>
 
-          {!showEmailForm && (
+          {!showEmailForm && currentQuestion && (
             <div className="flex justify-between mt-8 max-w-2xl mx-auto">
               <button
                 onClick={handlePreviousQuestion}
