@@ -119,8 +119,8 @@ export default function QuizPage() {
     if (!state.result) return;
 
     const shareData = {
-      title: `I'm a ${state.result.name}! Which endangered wildcat are you?`,
-      text: `Take the FUZZ wildcat personality quiz to discover your wildcat match and learn how to help save these amazing animals.`,
+      title: `I'm a ${state.result.name}! Which rare wildcat are you?`,
+      text: `Take the FUZZ wildcat quiz to discover your secret wildcat twin and learn how to help protect these amazing animals.`,
       url: window.location.href,
     };
 

@@ -11,11 +11,11 @@ export default function Home() {
         <div className="container mx-auto px-4 py-6 md:py-12">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-serif font-bold text-primary-800 mb-6">
-              Which Endangered Wildcat Matches Your Personality?
+              Which Rare Wildcat Is Your Secret Twin?
             </h1>
             
             <p className="text-lg md:text-xl text-primary-600 mb-8">
-              Take this quick quiz to discover your wildcat spirit animal and learn how to help save these amazing felines from extinction.
+              Take this quick quiz to discover your wildcat twin and learn how to help protect these amazing felines.
             </p>
 
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8">
@@ -30,14 +30,14 @@ export default function Home() {
             </div>
 
             <p className="text-primary-700 mb-12">
-              The world's wildcats face unprecedented threats, from habitat loss to poaching. By understanding which endangered feline shares your personality traits, you'll forge a personal connection with conservation efforts. Take just 2 minutes to find your wildcat match and discover how you can make a difference.
+              The world's wildcats face unprecedented threats, from habitat loss to poaching. By discovering which rare feline shares your personality traits, you'll forge a personal connection with conservation efforts. Take just 2 minutes to find your wildcat twin and discover how you can make a difference.
             </p>
 
             <Link 
               href="/quiz"
               className="btn-primary inline-flex items-center text-lg"
             >
-              Find My Wildcat Match
+              Find My Wildcat Twin
               <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
           </div>
