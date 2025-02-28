@@ -91,7 +91,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             </div>
             <div className="ml-3">
               <label htmlFor="newsletter" className="text-sm text-primary-700">
-                Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
+                Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field written by journalist Dan Fletcher, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
               </label>
             </div>
           </div>
@@ -100,10 +100,10 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             We respect your privacy. Your email is safe with us and will never be shared or sold. You can unsubscribe anytime.
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col items-center gap-4">
             <button
               type="submit"
-              className="btn-primary flex-1"
+              className="btn-primary w-full py-4 text-lg font-medium"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Saving...' : 'Get My Results & Updates'}
@@ -111,10 +111,10 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             <button
               type="button"
               onClick={onSkip}
-              className="btn-secondary flex-1"
+              className="text-primary-600 hover:text-primary-700 text-sm underline"
               disabled={isSubmitting}
             >
-              Skip & See Results
+              Skip & see results
             </button>
           </div>
         </form>
