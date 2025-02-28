@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { WildcatResult, Question, WildcatType } from '@/types/quiz';
 import { HeartIcon, StarIcon } from '@heroicons/react/24/solid';
 import { wildcatResults, questions } from '@/lib/quizData';
+import { useEffect } from 'react';
 
 const wildcatImages = {
   'manul': '/images/wildcats/manul.jpg',
@@ -378,6 +379,63 @@ export default function Results({ result, answers, onRetakeQuiz, onShare }: Resu
     topTraits: calculateTraitScores(primaryMatch.type as WildcatType, answers)
   };
 
+  // Track quiz completion on first render
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'CompleteQuiz', {
+        content_name: 'Wildcat Quiz',
+        content_category: 'Quiz Complete',
+        value: result.type,
+      });
+    }
+  }, [result.type]);
+
+  const handleShare = async () => {
+    if (!result) return;
+
+    // Track share event
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Share', {
+        content_name: 'Wildcat Quiz Results',
+        content_category: 'Quiz Share',
+        value: result.type,
+      });
+    }
+
+    // Get the match percentage from the result
+    const topTraits = calculateTraitScores(result.type as WildcatType, answers);
+    const traitsText = topTraits.map(t => t.name).join(' & ');
+
+    const shareData = {
+      title: `🐱 I'm a ${result.name}! My top traits are ${traitsText}!`,
+      text: `I took the FUZZ wildcat quiz and discovered I'm a ${result.name} with ${traitsText} traits! Take the quiz to discover your secret wildcat twin and learn how to help protect these amazing cats.`,
+      url: 'https://catquiz.fuzz.net',
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (error) {
+        // Ignore AbortError when user cancels share dialog
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Error sharing:', error);
+          // Fallback to clipboard
+          await navigator.clipboard.writeText(`${shareData.title}\n\n${shareData.text}\n\n${shareData.url}`);
+          alert('Share link copied to clipboard!');
+        }
+      }
+    } else {
+      // Fallback to copying to clipboard
+      try {
+        await navigator.clipboard.writeText(`${shareData.title}\n\n${shareData.text}\n\n${shareData.url}`);
+        alert('Share link copied to clipboard!');
+      } catch (error) {
+        console.error('Error copying to clipboard:', error);
+        alert('Unable to share or copy link. Please try again.');
+      }
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -493,7 +551,7 @@ export default function Results({ result, answers, onRetakeQuiz, onShare }: Resu
 
           <div className="flex flex-col gap-4">
             <button
-              onClick={onShare}
+              onClick={handleShare}
               className="w-full py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-lg hover:from-primary-700 hover:to-primary-600 transition-all duration-300 transform hover:scale-102 shadow-lg hover:shadow-xl"
             >
               <div className="flex items-center justify-center">

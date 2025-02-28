@@ -1,9 +1,25 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Header from '@/components/Header';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleStartQuiz = () => {
+    // Track quiz start event
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'StartQuiz', {
+        content_name: 'Wildcat Quiz',
+        content_category: 'Quiz Start',
+      });
+    }
+    router.push('/quiz');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -18,13 +34,13 @@ export default function Home() {
               Take this quick quiz to discover your wildcat twin and learn how to protect these amazing cats.
             </p>
 
-            <Link 
-              href="/quiz"
+            <button 
+              onClick={handleStartQuiz}
               className="btn-primary inline-flex items-center text-lg mb-8"
             >
               Find My Wildcat Twin
               <ArrowRightIcon className="w-5 h-5 ml-2" />
-            </Link>
+            </button>
 
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8">
               <Image
