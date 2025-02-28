@@ -11,8 +11,8 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: 'Wildcat Quiz - Find Your Spirit Animal',
-  description: 'Discover which rare wildcat species matches your personality through our interactive quiz.',
+  title: 'Discover Your Wildcat Match',
+  description: 'Find out which endangered wildcat species shares your traits in this personality-matching quiz',
   metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 }
 
