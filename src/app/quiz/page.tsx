@@ -125,7 +125,7 @@ export default function QuizPage() {
 
     const shareData = {
       title: `🐱 I'm a ${state.result.name}! My top traits are ${traitsText}!`,
-      text: `Take the FUZZ wildcat quiz to discover your secret wildcat twin and learn how to help protect these amazing cats.`,
+      text: `I took the FUZZ wildcat quiz and discovered I'm a ${state.result.name} with ${traitsText} traits! Take the quiz to discover your secret wildcat twin and learn how to help protect these amazing cats.`,
       url: 'https://catquiz.fuzz.net',
     };
 
