@@ -78,8 +78,20 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             )}
           </div>
 
-          <div className="text-sm text-primary-700">
-            Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field written by journalist Dan Fletcher, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
+          <div className="flex items-start">
+            <div className="flex items-center h-5">
+              <input
+                type="checkbox"
+                checked={true}
+                className="h-4 w-4 rounded border-gray-300 text-gray-400 cursor-not-allowed"
+                disabled={true}
+              />
+            </div>
+            <div className="ml-3">
+              <div className="text-sm text-primary-700">
+                Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field written by journalist Dan Fletcher, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
+              </div>
+            </div>
           </div>
 
           <div className="text-xs text-primary-500 mb-6">
@@ -100,7 +112,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
               className="text-gray-500 hover:text-gray-700 text-sm"
               disabled={isSubmitting}
             >
-              Skip & see results
+              (Skip the newsletter & just see results, thanks)
             </button>
           </div>
         </form>
