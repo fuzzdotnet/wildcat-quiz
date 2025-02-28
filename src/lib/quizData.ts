@@ -349,7 +349,7 @@ export const wildcatResults: Record<string, WildcatResult> = {
     funFact: "The enigmatic clouded leopard is a marvel of evolution, with the longest canine teeth relative to skull size of any modern cat. Their incredible agility and unique ankle joints allow them to climb down trees headfirst and even hang upside down from branches by their hind feet. These remarkable cats are masters of adaptation, equally comfortable in dense forests, misty mountains, and mangrove swamps.",
     conservationOrg: {
       name: 'Borneo Nature Foundation',
-      description: 'This organization conducts crucial research, supports anti-poaching efforts, and works with local communities across Southeast Asia to protect clouded leopards and their forest habitat.',
+      description: 'A wildlife and biodiversity conservation and research organization that protects and safeguards tropical rainforests and the environment in Borneo.',
       link: 'https://www.borneonaturefoundation.org'
     },
     imageDescription: 'Full-body image of a clouded leopard displaying its distinctive cloud-like coat pattern and long tail, ideally in a tree or forest setting.'
