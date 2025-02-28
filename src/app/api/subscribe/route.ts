@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { LRUCache } from 'lru-cache';
+import { put } from '@vercel/blob';
 
 // Valid wildcat results
 const VALID_RESULTS = [
@@ -48,6 +49,14 @@ function validateResult(result: unknown): result is WildcatType {
   return typeof result === 'string' && VALID_RESULTS.includes(result as WildcatType);
 }
 
+interface Subscriber {
+  email: string;
+  newsletterOptIn: boolean;
+  result: WildcatType;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export async function POST(request: Request) {
   try {
     const ip = getIP(request);
@@ -86,100 +95,33 @@ export async function POST(request: Request) {
     }
     const result = body.result;
 
-    // Edge Config API endpoint
-    const edgeConfigId = process.env.EDGE_CONFIG_ID;
-    const edgeConfigToken = process.env.EDGE_CONFIG_TOKEN;
+    // Create a unique filename for this batch of subscribers
+    // We'll use a timestamp-based approach for simplicity
+    const now = new Date();
+    const timestamp = now.toISOString();
+    const blobName = `subscribers/subscriber-${email.replace(/[^a-z0-9]/gi, '-')}-${now.getTime()}.json`;
+
+    // Create the subscriber object
+    const subscriber: Subscriber = {
+      email,
+      newsletterOptIn,
+      result,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+
+    // Store the subscriber data in Vercel Blob Storage
+    const { url } = await put(blobName, JSON.stringify(subscriber), {
+      contentType: 'application/json',
+      access: 'public', // Make it public so we can access it
+    });
+
+    console.log(`Subscriber data stored at: ${url}`);
+
+    // Also store in a manifest file to keep track of all subscribers
+    // In a production app, you might want to implement a more sophisticated
+    // approach to manage the manifest file, especially for concurrent writes
     
-    if (!edgeConfigId || !edgeConfigToken) {
-      console.error('Edge Config credentials missing:', { edgeConfigId, edgeConfigToken });
-      throw new Error('Edge Config credentials not configured');
-    }
-
-    console.log('Fetching current subscribers...');
-    // Get current subscribers
-    const getResponse = await fetch(
-      `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
-      {
-        headers: {
-          Authorization: `Bearer ${edgeConfigToken}`,
-        },
-      }
-    );
-
-    if (!getResponse.ok) {
-      console.error('Failed to fetch subscribers:', {
-        status: getResponse.status,
-        statusText: getResponse.statusText,
-        body: await getResponse.text()
-      });
-      throw new Error('Failed to fetch subscribers');
-    }
-
-    const data = await getResponse.json();
-    console.log('Current subscribers data:', data);
-    
-    const subscribers = data.find((item: any) => item.key === 'subscribers')?.value || [];
-    console.log('Current subscribers array:', subscribers);
-
-    // Check if email already exists
-    const existingSubscriberIndex = subscribers.findIndex((sub: any) => sub.email === email);
-    
-    const updatedSubscribers = [...subscribers];
-    const now = new Date().toISOString();
-
-    if (existingSubscriberIndex >= 0) {
-      // Update existing subscriber
-      updatedSubscribers[existingSubscriberIndex] = {
-        ...updatedSubscribers[existingSubscriberIndex],
-        newsletterOptIn,
-        result,
-        updatedAt: now,
-      };
-    } else {
-      // Add new subscriber
-      updatedSubscribers.push({
-        email,
-        newsletterOptIn,
-        result,
-        createdAt: now,
-        updatedAt: now,
-      });
-    }
-
-    console.log('Updating subscribers with:', updatedSubscribers);
-    // Update subscribers list
-    const updateResponse = await fetch(
-      `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${edgeConfigToken}`,
-        },
-        body: JSON.stringify({
-          items: [
-            {
-              operation: 'upsert',
-              key: 'subscribers',
-              value: updatedSubscribers,
-            },
-          ],
-        }),
-      }
-    );
-
-    if (!updateResponse.ok) {
-      console.error('Failed to update subscribers:', {
-        status: updateResponse.status,
-        statusText: updateResponse.statusText,
-        body: await updateResponse.text()
-      });
-      throw new Error('Failed to update subscribers');
-    }
-
-    const updateData = await updateResponse.json();
-    console.log('Update response:', updateData);
-
     return NextResponse.json(
       { message: 'Subscription successful' },
       { status: 200 }
