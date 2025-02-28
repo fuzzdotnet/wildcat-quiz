@@ -14,6 +14,28 @@ export const metadata: Metadata = {
   title: 'Which Rare Wildcat Is Your Secret Twin?',
   description: 'Take this quiz to discover which rare wildcat shares your personality and learn how to help protect these amazing animals',
   metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
+  openGraph: {
+    type: 'website',
+    title: 'Which Rare Wildcat Is Your Secret Twin? 🐱',
+    description: 'Discover your wildcat personality match and join the mission to protect these incredible endangered species. Take the quiz now!',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Rare Wildcat Quiz - Find Your Secret Twin'
+      }
+    ],
+    locale: 'en_US',
+    siteName: 'Wildcat Quiz'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Which Rare Wildcat Is Your Secret Twin? 🐱',
+    description: 'Discover your wildcat personality match and join the mission to protect these incredible endangered species. Take the quiz now!',
+    images: ['/og-image.jpg'],
+    creator: '@fuzzdotnet'
+  },
   icons: {
     icon: [
       { url: '/favicon.ico' },
