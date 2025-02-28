@@ -6,6 +6,7 @@ import { WildcatResult, Question, WildcatType } from '@/types/quiz';
 import { HeartIcon, StarIcon } from '@heroicons/react/24/solid';
 import { wildcatResults, questions } from '@/lib/quizData';
 import { useEffect } from 'react';
+import { trackFBEvent } from '@/lib/analytics';
 
 const wildcatImages = {
   'manul': '/images/wildcats/manul.jpg',
@@ -381,26 +382,22 @@ export default function Results({ result, answers, onRetakeQuiz, onShare }: Resu
 
   // Track quiz completion on first render
   useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'CompleteQuiz', {
-        content_name: 'Wildcat Quiz',
-        content_category: 'Quiz Complete',
-        value: result.type,
-      });
-    }
+    trackFBEvent('CompleteQuiz', {
+      content_name: 'Wildcat Quiz',
+      content_category: 'Quiz Complete',
+      value: result.type,
+    });
   }, [result.type]);
 
   const handleShare = async () => {
     if (!result) return;
 
     // Track share event
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Share', {
-        content_name: 'Wildcat Quiz Results',
-        content_category: 'Quiz Share',
-        value: result.type,
-      });
-    }
+    trackFBEvent('Share', {
+      content_name: 'Wildcat Quiz Results',
+      content_category: 'Quiz Share',
+      value: result.type,
+    });
 
     // Get the match percentage from the result
     const topTraits = calculateTraitScores(result.type as WildcatType, answers);

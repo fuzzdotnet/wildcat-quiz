@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { WildcatResult } from '@/types/quiz';
+import { trackFBEvent } from '@/lib/analytics';
 
 interface EmailFormProps {
   onSubmit: (email: string, newsletterOptIn: boolean) => void;
@@ -41,13 +42,11 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
       }
 
       // Track the signup event with Facebook Pixel
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'Lead', {
-          content_name: 'Quiz Results',
-          content_category: 'Wildcat Quiz',
-          value: result.type,
-        });
-      }
+      trackFBEvent('Lead', {
+        content_name: 'Quiz Results',
+        content_category: 'Wildcat Quiz',
+        value: result.type,
+      });
 
       onSubmit(email, newsletterOptIn);
     } catch (err) {

@@ -5,18 +5,17 @@ import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Header from '@/components/Header';
 import { useRouter } from 'next/navigation';
+import { trackFBEvent } from '@/lib/analytics';
 
 export default function Home() {
   const router = useRouter();
 
   const handleStartQuiz = () => {
     // Track quiz start event
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'StartQuiz', {
-        content_name: 'Wildcat Quiz',
-        content_category: 'Quiz Start',
-      });
-    }
+    trackFBEvent('StartQuiz', {
+      content_name: 'Wildcat Quiz',
+      content_category: 'Quiz Start',
+    });
     router.push('/quiz');
   };
 
