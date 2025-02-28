@@ -12,7 +12,7 @@ interface EmailFormProps {
 
 export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) {
   const [email, setEmail] = useState('');
-  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
+  const [newsletterOptIn, setNewsletterOptIn] = useState(true);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
