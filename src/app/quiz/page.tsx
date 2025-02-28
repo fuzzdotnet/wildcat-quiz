@@ -6,6 +6,7 @@ import { AnimatePresence } from 'framer-motion';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { useQuiz } from '@/context/QuizContext';
 import { questions, calculateResult } from '@/lib/quizData';
+import Header from '@/components/Header';
 import ProgressBar from '@/components/ProgressBar';
 import Question from '@/components/Question';
 import EmailForm from '@/components/EmailForm';
@@ -121,68 +122,74 @@ export default function QuizPage() {
 
   if (showResults && state.result) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-primary-50 to-primary-100 py-12">
-        <Results
-          result={state.result}
-          answers={state.answers}
-          onRetakeQuiz={handleRetakeQuiz}
-          onShare={handleShare}
-        />
-      </div>
+      <>
+        <Header />
+        <div className="min-h-screen bg-gradient-to-b from-primary-50 to-primary-100 py-12">
+          <Results
+            result={state.result}
+            answers={state.answers}
+            onRetakeQuiz={handleRetakeQuiz}
+            onShare={handleShare}
+          />
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary-50 to-primary-100">
-      <div className="container mx-auto px-4 py-12">
-        <div className="mb-8">
-          <ProgressBar
-            currentStep={state.currentQuestionIndex + 1}
-            totalSteps={questions.length}
-          />
-        </div>
-
-        <AnimatePresence mode="wait">
-          {showEmailForm ? (
-            <EmailForm 
-              onSubmit={handleEmailSubmit} 
-              onSkip={handleSkip}
-              result={calculateResult(state.answers)}
+    <>
+      <Header />
+      <div className="min-h-screen bg-gradient-to-b from-primary-50 to-primary-100">
+        <div className="container mx-auto px-4 py-12">
+          <div className="mb-8">
+            <ProgressBar
+              currentStep={state.currentQuestionIndex + 1}
+              totalSteps={questions.length}
             />
-          ) : (
-            <Question
-              question={currentQuestion}
-              selectedAnswer={state.answers[currentQuestion.id]}
-              onAnswerSelect={handleAnswerSelect}
-            />
-          )}
-        </AnimatePresence>
-
-        {!showEmailForm && (
-          <div className="flex justify-between mt-8 max-w-2xl mx-auto">
-            <button
-              onClick={handlePreviousQuestion}
-              disabled={state.currentQuestionIndex === 0}
-              className={`btn-secondary inline-flex items-center ${
-                state.currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              <ArrowLeftIcon className="w-5 h-5 mr-2" />
-              Previous
-            </button>
-
-            {state.answers[currentQuestion.id] !== undefined && !isLastQuestion && (
-              <button
-                onClick={handleNextQuestion}
-                className="btn-primary inline-flex items-center"
-              >
-                Next
-                <ArrowRightIcon className="w-5 h-5 ml-2" />
-              </button>
-            )}
           </div>
-        )}
+
+          <AnimatePresence mode="wait">
+            {showEmailForm ? (
+              <EmailForm 
+                onSubmit={handleEmailSubmit} 
+                onSkip={handleSkip}
+                result={calculateResult(state.answers)}
+              />
+            ) : (
+              <Question
+                question={currentQuestion}
+                selectedAnswer={state.answers[currentQuestion.id]}
+                onAnswerSelect={handleAnswerSelect}
+              />
+            )}
+          </AnimatePresence>
+
+          {!showEmailForm && (
+            <div className="flex justify-between mt-8 max-w-2xl mx-auto">
+              <button
+                onClick={handlePreviousQuestion}
+                disabled={state.currentQuestionIndex === 0}
+                className={`btn-secondary inline-flex items-center ${
+                  state.currentQuestionIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                <ArrowLeftIcon className="w-5 h-5 mr-2" />
+                Previous
+              </button>
+
+              {state.answers[currentQuestion.id] !== undefined && !isLastQuestion && (
+                <button
+                  onClick={handleNextQuestion}
+                  className="btn-primary inline-flex items-center"
+                >
+                  Next
+                  <ArrowRightIcon className="w-5 h-5 ml-2" />
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 } 

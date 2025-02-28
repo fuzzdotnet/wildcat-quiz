@@ -1,12 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import Header from '@/components/Header';
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
+      <Header />
       <div className="flex-grow bg-gradient-to-b from-primary-50 to-primary-100">
-        <div className="container mx-auto px-4 py-12 md:py-24">
+        <div className="container mx-auto px-4 py-6 md:py-12">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-serif font-bold text-primary-800 mb-6">
               Which Endangered Wildcat Matches Your Personality?
