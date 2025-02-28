@@ -2,6 +2,7 @@ import '@/styles/globals.css'
 import { Metadata } from 'next'
 import { Inter, Merriweather } from 'next/font/google';
 import { QuizProvider } from '@/context/QuizContext';
+import Footer from '@/components/Footer';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const merriweather = Merriweather({
@@ -56,12 +57,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${merriweather.variable} font-sans`}>
+    <html lang="en" className="h-full">
+      <body className={`${inter.variable} ${merriweather.variable} font-sans min-h-full flex flex-col`}>
         <QuizProvider>
-          <main className="min-h-screen">
+          <main className="flex-grow">
             {children}
           </main>
+          <Footer />
         </QuizProvider>
       </body>
     </html>

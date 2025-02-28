@@ -25,7 +25,21 @@ module.exports = {
         serif: ['Merriweather', 'serif'],
         sans: ['Inter', 'sans-serif'],
       },
+      typography: (theme) => ({
+        primary: {
+          css: {
+            '--tw-prose-body': theme('colors.primary[700]'),
+            '--tw-prose-headings': theme('colors.primary[800]'),
+            '--tw-prose-lead': theme('colors.primary[600]'),
+            '--tw-prose-links': theme('colors.primary[600]'),
+            '--tw-prose-bold': theme('colors.primary[800]'),
+            '--tw-prose-bullets': theme('colors.primary[400]'),
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 } 
