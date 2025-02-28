@@ -1,4 +1,4 @@
-import './globals.css'
+import '@/styles/globals.css'
 import { Metadata } from 'next'
 import { Inter, Merriweather } from 'next/font/google';
 import { QuizProvider } from '@/context/QuizContext';
