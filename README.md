@@ -1,97 +1,55 @@
-# Wildcat Personality Quiz
+# 🐱 Wildcat Quiz
 
-An engaging, interactive quiz application that matches users with endangered wildcat species based on their personality traits. Built with Next.js, TypeScript, and Tailwind CSS.
+A personality quiz that matches you with your wildcat spirit animal based on your traits and preferences.
 
 ## Features
 
-- 🐱 Personality-based matching with endangered wildcats
-- 📱 Fully responsive design for all devices
-- ✨ Smooth animations and transitions
-- 💾 Progress saving
-- 📧 Newsletter integration
-- 🔄 Social sharing capabilities
+- Interactive quiz with 7 personality-based questions
+- Matches users with one of six rare wildcat species
+- Detailed result explanations with conservation information
+- Beautiful, responsive UI built with Next.js and Tailwind CSS
+- Sophisticated matching algorithm considering trait intensity
+
+## Wildcats Featured
+
+- Manul (Pallas's Cat)
+- Iberian Lynx
+- Clouded Leopard
+- Flat-headed Cat
+- Andean Mountain Cat
+- Fishing Cat
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 with TypeScript
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **State Management**: React Context API
-- **Icons**: Heroicons
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- React Context for state management
 
 ## Getting Started
 
-### Prerequisites
-
-- Node.js 18.0 or later
-- npm or yarn
-
-### Installation
-
 1. Clone the repository:
-```bash
-git clone https://github.com/your-username/wildcat-quiz.git
-cd wildcat-quiz
-```
+   ```bash
+   git clone https://github.com/fuzzdotnet/wildcat-quiz.git
+   ```
 
 2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
+   ```bash
+   cd wildcat-quiz
+   npm install
+   ```
 
-3. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Project Structure
-
-```
-src/
-├── app/                 # Next.js app directory
-├── components/         # Reusable components
-├── context/           # React Context for state management
-├── lib/               # Utilities and data
-├── styles/            # Global styles
-└── types/             # TypeScript type definitions
-```
-
-## Components
-
-- `Question`: Displays quiz questions and handles answer selection
-- `ProgressBar`: Shows quiz progress
-- `EmailForm`: Collects user email and newsletter preferences
-- `Results`: Displays quiz results and sharing options
-
-## State Management
-
-The application uses React Context API for state management. The quiz state includes:
-
-- Current question index
-- User's answers
-- Quiz results
-- Email and newsletter preferences
-
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome! Feel free to open issues or submit pull requests.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- FUZZ Newsletter for the project requirements and content
-- Unsplash for wildcat images
-- Conservation organizations working to protect endangered wildcats 
+MIT License - feel free to use this code for your own projects! 
