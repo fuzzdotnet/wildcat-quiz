@@ -91,7 +91,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             </div>
             <div className="ml-3">
               <label htmlFor="newsletter" className="text-sm text-primary-700">
-                Yes, I'd like to receive FUZZ's newsletter featuring wildlife conservation stories, amazing animal facts, and ways to help endangered species. (2-3 emails per week)
+                Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
               </label>
             </div>
           </div>
