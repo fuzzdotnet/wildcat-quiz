@@ -89,7 +89,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             </div>
             <div className="ml-3">
               <div className="text-sm text-primary-700">
-                Hey! I'm Dan Fletcher, and I send stories about amazing animals and their protectors straight from the field to your inbox. Join me for wild adventures, surprising animal facts, and conservation wins from around the globe. Always free, never spammy, just genuine nature stories three times a week.
+                <strong>Join FUZZ!</strong> Hey! I'm Dan Fletcher, and I send stories about amazing animals and their protectors straight from the field to your inbox. Join me for wild adventures, surprising animal facts, and conservation wins from around the globe. Always free, never spammy, just genuine nature stories three times a week.
               </div>
             </div>
           </div>
