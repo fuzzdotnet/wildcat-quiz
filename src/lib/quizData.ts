@@ -378,7 +378,7 @@ export const wildcatResults: Record<string, WildcatResult> = {
     conservationOrg: {
       name: 'Andean Cat Alliance',
       description: 'This collaborative network of organizations works across Argentina, Bolivia, Chile, and Peru to study and protect Andean mountain cats through research, education, and community-based conservation initiatives.',
-      link: 'https://andescatalliance.org'
+      link: 'https://gatoandino.org/en/home/'
     },
     imageDescription: 'Full-body image of an Andean mountain cat showing its thick fur, distinctive striped tail, and gray/ash coloration against a rocky, high-altitude background.'
   },
