@@ -89,7 +89,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             </div>
             <div className="ml-3">
               <div className="text-sm text-primary-700">
-                Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field written by journalist Dan Fletcher, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
+                Hey! I'm Dan Fletcher, and I send stories about amazing animals and their protectors straight from the field to your inbox. Join me for wild adventures, surprising animal facts, and conservation wins from around the globe. Always free, never spammy, just genuine nature stories three times a week.
               </div>
             </div>
           </div>
