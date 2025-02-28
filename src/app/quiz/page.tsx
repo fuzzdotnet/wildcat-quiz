@@ -12,6 +12,15 @@ import Question from '@/components/Question';
 import EmailForm from '@/components/EmailForm';
 import Results from '@/components/Results';
 
+const wildcatImages = {
+  'manul': '/images/wildcats/manul.jpg',
+  'iberian-lynx': '/images/wildcats/iberian-lynx.jpg',
+  'clouded-leopard': '/images/wildcats/clouded-leopard.jpg',
+  'flat-headed-cat': '/images/wildcats/flat-headed-cat.jpg',
+  'andean-mountain-cat': '/images/wildcats/andean-mountain-cat.jpg',
+  'fishing-cat': '/images/wildcats/fishing-cat.jpg'
+} as const;
+
 export default function QuizPage() {
   const router = useRouter();
   const { state, dispatch } = useQuiz();
@@ -61,6 +70,14 @@ export default function QuizPage() {
           currentQuestionIndex: state.currentQuestionIndex,
         })
       );
+
+      // Preload result images when user is on the last question
+      if (state.currentQuestionIndex === questions.length - 1) {
+        Object.values(wildcatImages).forEach(imageSrc => {
+          const img = new Image();
+          img.src = imageSrc;
+        });
+      }
     }
   }, [state.answers, state.currentQuestionIndex]);
 
