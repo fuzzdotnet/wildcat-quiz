@@ -61,10 +61,12 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
+    console.log('Request body:', body);
     
     // Validate and sanitize email
     const email = sanitizeEmail(body.email);
     if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      console.error('Invalid email format:', email);
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
@@ -76,6 +78,7 @@ export async function POST(request: Request) {
 
     // Validate result
     if (!validateResult(body.result)) {
+      console.error('Invalid quiz result:', body.result);
       return NextResponse.json(
         { error: 'Invalid quiz result' },
         { status: 400 }
@@ -88,9 +91,11 @@ export async function POST(request: Request) {
     const edgeConfigToken = process.env.EDGE_CONFIG_TOKEN;
     
     if (!edgeConfigId || !edgeConfigToken) {
+      console.error('Edge Config credentials missing:', { edgeConfigId, edgeConfigToken });
       throw new Error('Edge Config credentials not configured');
     }
 
+    console.log('Fetching current subscribers...');
     // Get current subscribers
     const getResponse = await fetch(
       `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
@@ -102,11 +107,19 @@ export async function POST(request: Request) {
     );
 
     if (!getResponse.ok) {
+      console.error('Failed to fetch subscribers:', {
+        status: getResponse.status,
+        statusText: getResponse.statusText,
+        body: await getResponse.text()
+      });
       throw new Error('Failed to fetch subscribers');
     }
 
     const data = await getResponse.json();
+    console.log('Current subscribers data:', data);
+    
     const subscribers = data.find((item: any) => item.key === 'subscribers')?.value || [];
+    console.log('Current subscribers array:', subscribers);
 
     // Check if email already exists
     const existingSubscriberIndex = subscribers.findIndex((sub: any) => sub.email === email);
@@ -133,6 +146,7 @@ export async function POST(request: Request) {
       });
     }
 
+    console.log('Updating subscribers with:', updatedSubscribers);
     // Update subscribers list
     const updateResponse = await fetch(
       `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
@@ -155,8 +169,16 @@ export async function POST(request: Request) {
     );
 
     if (!updateResponse.ok) {
+      console.error('Failed to update subscribers:', {
+        status: updateResponse.status,
+        statusText: updateResponse.statusText,
+        body: await updateResponse.text()
+      });
       throw new Error('Failed to update subscribers');
     }
+
+    const updateData = await updateResponse.json();
+    console.log('Update response:', updateData);
 
     return NextResponse.json(
       { message: 'Subscription successful' },
@@ -165,7 +187,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Subscription error:', error);
     return NextResponse.json(
-      { error: 'Failed to save subscription' },
+      { error: error instanceof Error ? error.message : 'Failed to save subscription' },
       { status: 500 }
     );
   }
