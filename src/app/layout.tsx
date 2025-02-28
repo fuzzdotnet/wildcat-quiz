@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('http://catquiz.fuzz.net'),
   openGraph: {
     type: 'website',
+    url: 'http://catquiz.fuzz.net',
     title: 'Which Rare Wildcat Is Your Secret Twin? 🐱',
     description: 'Discover your wildcat personality match and join the mission to protect these incredible endangered species. Take the quiz now!',
     images: [
@@ -37,6 +38,9 @@ export const metadata: Metadata = {
     description: 'Discover your wildcat personality match and join the mission to protect these incredible endangered species. Take the quiz now!',
     images: ['/og-image.jpg'],
     creator: '@fuzzdotnet'
+  },
+  other: {
+    'fb:app_id': '1234567890123456'
   },
   icons: {
     icon: [
