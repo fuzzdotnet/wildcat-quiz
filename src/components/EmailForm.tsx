@@ -40,6 +40,15 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         throw new Error(data.error || 'Failed to subscribe');
       }
 
+      // Track the signup event with Facebook Pixel
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Quiz Results',
+          content_category: 'Wildcat Quiz',
+          value: result.type,
+        });
+      }
+
       onSubmit(email, newsletterOptIn);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to subscribe');

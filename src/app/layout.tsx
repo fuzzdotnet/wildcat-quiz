@@ -4,6 +4,7 @@ import { Inter, Merriweather } from 'next/font/google';
 import { QuizProvider } from '@/context/QuizContext';
 import Footer from '@/components/Footer';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import FacebookPixel from '@/components/FacebookPixel';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const merriweather = Merriweather({
@@ -65,6 +66,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <head>
         <GoogleAnalytics />
+        <FacebookPixel />
       </head>
       <body className={`${inter.variable} ${merriweather.variable} font-sans min-h-full flex flex-col`}>
         <QuizProvider>
