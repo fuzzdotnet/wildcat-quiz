@@ -46,7 +46,7 @@ export default function Home() {
 
       <footer className="bg-white py-4">
         <div className="container mx-auto px-4 text-center text-primary-500">
-          © {new Date().getFullYear()} FUZZ Newsletter. All rights reserved.
+          © {new Date().getFullYear()} FUZZ. All rights reserved.
         </div>
       </footer>
     </div>
