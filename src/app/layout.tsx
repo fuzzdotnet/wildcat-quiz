@@ -13,7 +13,7 @@ const merriweather = Merriweather({
 export const metadata: Metadata = {
   title: 'Which Rare Wildcat Is Your Secret Twin?',
   description: 'Take this quiz to discover which rare wildcat shares your personality and learn how to help protect these amazing animals',
-  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
+  metadataBase: new URL('http://catquiz.fuzz.net'),
   openGraph: {
     type: 'website',
     title: 'Which Rare Wildcat Is Your Secret Twin? 🐱',
