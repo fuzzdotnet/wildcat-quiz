@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence } from 'framer-motion';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { useQuiz } from '@/context/QuizContext';
-import { questions, calculateResult } from '@/lib/quizData';
+import { questions, calculateResult, calculateTraitScores } from '@/lib/quizData';
 import Header from '@/components/Header';
 import ProgressBar from '@/components/ProgressBar';
 import Question from '@/components/Question';
@@ -118,10 +118,15 @@ export default function QuizPage() {
   const handleShare = async () => {
     if (!state.result) return;
 
+    // Get the match percentage from the result
+    const result = calculateResult(state.answers);
+    const topTraits = calculateTraitScores(result.type, state.answers);
+    const traitsText = topTraits.map(t => t.name).join(' & ');
+
     const shareData = {
-      title: `I'm a ${state.result.name}! Which rare wildcat are you?`,
-      text: `Take the FUZZ wildcat quiz to discover your secret wildcat twin and learn how to help protect these amazing animals.`,
-      url: window.location.href,
+      title: `🐱 I'm a ${state.result.name}! My top traits are ${traitsText}!`,
+      text: `Take the FUZZ wildcat quiz to discover your secret wildcat twin and learn how to help protect these amazing cats. ${state.result.funFact}`,
+      url: 'https://catquiz.fuzz.net',
     };
 
     if (navigator.share) {

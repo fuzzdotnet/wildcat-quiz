@@ -504,4 +504,58 @@ export const calculateResult = (answers: Record<number, number>): WildcatResult 
 
   // Return the wildcat with the highest percentage
   return wildcatResults[scorePercentages[0].wildcat as WildcatType];
+};
+
+interface TraitQuestion {
+  questionId: number;
+  answerIndex: number;
+  score: number;
+}
+
+interface TraitScores {
+  [trait: string]: TraitQuestion[];
+}
+
+interface WildcatTraitScores {
+  [wildcat: string]: TraitScores;
+}
+
+const wildcatTraitScores: WildcatTraitScores = {
+  'manul': {
+    'Patient': [
+      { questionId: 1, answerIndex: 0, score: 5 },  // patient and strategic
+      { questionId: 3, answerIndex: 0, score: 4 }   // stick to what I like
+    ],
+    // ... rest of manul traits ...
+  },
+  // ... rest of wildcats ...
+};
+
+// Calculate trait scores based on user's answers
+export const calculateTraitScores = (type: WildcatType, userAnswers: Record<number, number>) => {
+  const traitScores = new Map<string, number>();
+  const traits = wildcatTraitScores[type];
+  
+  Object.entries(traits).forEach(([trait, questions]) => {
+    let traitScore = 0;
+    let maxPossibleScore = 0;
+    
+    questions.forEach((q: TraitQuestion) => {
+      maxPossibleScore += q.score;
+      if (userAnswers[q.questionId] === q.answerIndex) {
+        traitScore += q.score;
+      }
+    });
+    
+    const percentage = Math.round((traitScore / maxPossibleScore) * 100);
+    traitScores.set(trait, percentage);
+  });
+  
+  return Array.from(traitScores.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([trait, score]) => ({
+      name: trait,
+      score
+    }));
 }; 
