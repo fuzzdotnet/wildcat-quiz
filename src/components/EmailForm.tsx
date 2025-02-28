@@ -78,22 +78,8 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             )}
           </div>
 
-          <div className="flex items-start">
-            <div className="flex items-center h-5">
-              <input
-                id="newsletter"
-                type="checkbox"
-                checked={newsletterOptIn}
-                onChange={(e) => setNewsletterOptIn(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                disabled={isSubmitting}
-              />
-            </div>
-            <div className="ml-3">
-              <label htmlFor="newsletter" className="text-sm text-primary-700">
-                Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field written by journalist Dan Fletcher, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
-              </label>
-            </div>
+          <div className="text-sm text-primary-700">
+            Yes, I'd like to join FUZZ's community of wildlife enthusiasts! I'll receive captivating conservation stories from the field written by journalist Dan Fletcher, discover fascinating animal facts from remote locations worldwide, and learn about impactful ways to help endangered species. Plus, I'll get first access to FUZZ's exclusive wildlife photography and expedition updates. (2-3 emails per week, always free)
           </div>
 
           <div className="text-xs text-primary-500 mb-6">
@@ -106,12 +92,12 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
               className="btn-primary w-full py-4 text-lg font-medium"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Saving...' : 'Get My Results & Updates'}
+              {isSubmitting ? 'Saving...' : 'Get My Results'}
             </button>
             <button
               type="button"
               onClick={onSkip}
-              className="text-primary-600 hover:text-primary-700 text-sm underline"
+              className="text-gray-500 hover:text-gray-700 text-sm"
               disabled={isSubmitting}
             >
               Skip & see results
