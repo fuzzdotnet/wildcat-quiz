@@ -34,7 +34,10 @@ export default function Question({ question, selectedAnswer, onAnswerSelect }: Q
             whileHover={{ scale: selectedAnswer === index ? 1.05 : 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <p className="text-lg">{answer.text}</p>
+            <div className="flex items-center">
+              <span className="text-2xl mr-3">{answer.emoji}</span>
+              <p className="text-lg">{answer.text}</p>
+            </div>
           </motion.button>
         ))}
       </div>

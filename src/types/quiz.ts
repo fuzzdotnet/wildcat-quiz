@@ -2,6 +2,7 @@ export type WildcatType = 'manul' | 'iberian-lynx' | 'clouded-leopard' | 'flat-h
 
 export interface Answer {
   text: string;
+  emoji: string;
   scores: Record<WildcatType, number>;
 }
 

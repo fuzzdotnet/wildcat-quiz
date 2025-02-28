@@ -9,6 +9,7 @@ export const questions: Question[] = [
     answers: [
       {
         text: "Parkour! I love climbing and jumping between high places",
+        emoji: "🧗‍♂️",
         scores: {
           'clouded-leopard': 5,
           'fishing-cat': 2,
@@ -20,6 +21,7 @@ export const questions: Question[] = [
       },
       {
         text: "Chilling in my cozy spot, watching the world go by",
+        emoji: "🛋️",
         scores: {
           'manul': 5,
           'iberian-lynx': 2,
@@ -31,6 +33,7 @@ export const questions: Question[] = [
       },
       {
         text: "Swimming or water activities - I love being near water!",
+        emoji: "🌊",
         scores: {
           'fishing-cat': 5,
           'flat-headed-cat': 5,
@@ -42,6 +45,7 @@ export const questions: Question[] = [
       },
       {
         text: "Going on a solo adventure in nature",
+        emoji: "🏞️",
         scores: {
           'andean-mountain-cat': 5,
           'iberian-lynx': 4,
@@ -59,6 +63,7 @@ export const questions: Question[] = [
     answers: [
       {
         text: "I'm patient and strategic - I wait for the perfect moment",
+        emoji: "🎯",
         scores: {
           'manul': 5,
           'iberian-lynx': 5,
@@ -70,6 +75,7 @@ export const questions: Question[] = [
       },
       {
         text: "I dive right in and figure it out as I go",
+        emoji: "🏊‍♂️",
         scores: {
           'fishing-cat': 4,
           'flat-headed-cat': 2,
@@ -81,6 +87,7 @@ export const questions: Question[] = [
       },
       {
         text: "I use my agility and quick thinking to overcome obstacles",
+        emoji: "🤸‍♂️",
         scores: {
           'clouded-leopard': 5,
           'iberian-lynx': 4,
@@ -98,6 +105,7 @@ export const questions: Question[] = [
     answers: [
       {
         text: "I'm tough and resilient - bring on the challenge!",
+        emoji: "💪",
         scores: {
           'manul': 2,
           'andean-mountain-cat': 3,
@@ -109,6 +117,7 @@ export const questions: Question[] = [
       },
       {
         text: "I'm adaptable and can handle whatever comes my way",
+        emoji: "🔄",
         scores: {
           'clouded-leopard': 3,
           'fishing-cat': 3,
@@ -120,6 +129,7 @@ export const questions: Question[] = [
       },
       {
         text: "I prefer to stick to what I know I'm good at",
+        emoji: "⭐",
         scores: {
           'flat-headed-cat': 3,
           'iberian-lynx': 1,
@@ -137,6 +147,7 @@ export const questions: Question[] = [
     answers: [
       {
         text: "I know what I like and stick to it - why change perfection?",
+        emoji: "🍽️",
         scores: {
           'iberian-lynx': 5,
           'flat-headed-cat': 5,
@@ -148,6 +159,7 @@ export const questions: Question[] = [
       },
       {
         text: "I'll try anything once - variety is the spice of life!",
+        emoji: "🌶️",
         scores: {
           'fishing-cat': 4,
           'clouded-leopard': 3,
@@ -159,6 +171,7 @@ export const questions: Question[] = [
       },
       {
         text: "I'm resourceful - I can make a meal out of anything",
+        emoji: "🧠",
         scores: {
           'andean-mountain-cat': 5,
           'manul': 4,
@@ -176,6 +189,7 @@ export const questions: Question[] = [
     answers: [
       {
         text: "My incredible agility and balance",
+        emoji: "🎪",
         scores: {
           'clouded-leopard': 5,
           'iberian-lynx': 4,
@@ -187,6 +201,7 @@ export const questions: Question[] = [
       },
       {
         text: "My ability to thrive where others can't",
+        emoji: "🏔️",
         scores: {
           'manul': 5,
           'andean-mountain-cat': 5,
@@ -198,6 +213,7 @@ export const questions: Question[] = [
       },
       {
         text: "My focus and determination",
+        emoji: "🎯",
         scores: {
           'iberian-lynx': 5,
           'flat-headed-cat': 5,
@@ -209,6 +225,7 @@ export const questions: Question[] = [
       },
       {
         text: "My versatility and adaptability",
+        emoji: "🔄",
         scores: {
           'fishing-cat': 3,
           'clouded-leopard': 5,
@@ -226,6 +243,7 @@ export const questions: Question[] = [
     answers: [
       {
         text: "Late at night when everything is quiet",
+        emoji: "🌙",
         scores: {
           'flat-headed-cat': 5,
           'clouded-leopard': 5,
@@ -237,6 +255,7 @@ export const questions: Question[] = [
       },
       {
         text: "Early morning or evening - the transition times",
+        emoji: "🌅",
         scores: {
           'manul': 5,
           'iberian-lynx': 5,
@@ -248,6 +267,7 @@ export const questions: Question[] = [
       },
       {
         text: "Whenever opportunity strikes - I'm always ready!",
+        emoji: "⚡",
         scores: {
           'fishing-cat': 2,
           'clouded-leopard': 3,
@@ -265,46 +285,50 @@ export const questions: Question[] = [
     answers: [
       {
         text: "I focus intensely on one specific technique until I perfect it",
+        emoji: "🎯",
         scores: {
-          'flat-headed-cat': 5,    // Extremely specialized hunter
-          'iberian-lynx': 4,       // Values precision
-          'manul': 4,              // Patient perfectionist
-          'fishing-cat': 2,        // More versatile
-          'clouded-leopard': 1,    // Prefers versatility
-          'andean-mountain-cat': 3  // Focused but adaptable
+          'flat-headed-cat': 5,
+          'iberian-lynx': 4,
+          'manul': 4,
+          'fishing-cat': 2,
+          'clouded-leopard': 1,
+          'andean-mountain-cat': 3
         }
       },
       {
         text: "I learn the basics and then experiment with different variations",
+        emoji: "🔬",
         scores: {
-          'fishing-cat': 5,        // Adaptable and innovative
-          'clouded-leopard': 4,    // Creative approach
-          'andean-mountain-cat': 3, // Adaptable to conditions
-          'manul': 2,              // Prefers proven methods
-          'flat-headed-cat': 1,    // Very specialized
-          'iberian-lynx': 2        // Prefers precision
+          'fishing-cat': 5,
+          'clouded-leopard': 4,
+          'andean-mountain-cat': 3,
+          'manul': 2,
+          'flat-headed-cat': 1,
+          'iberian-lynx': 2
         }
       },
       {
         text: "I prefer to be versatile rather than specialized",
+        emoji: "🎭",
         scores: {
-          'clouded-leopard': 5,    // Most versatile
-          'fishing-cat': 4,        // Adaptable hunter
-          'andean-mountain-cat': 3, // Adaptable to conditions
-          'manul': 1,              // Prefers specialization
-          'flat-headed-cat': 0,    // Highly specialized
-          'iberian-lynx': 2        // Specialized but adaptable
+          'clouded-leopard': 5,
+          'fishing-cat': 4,
+          'andean-mountain-cat': 3,
+          'manul': 1,
+          'flat-headed-cat': 0,
+          'iberian-lynx': 2
         }
       },
       {
         text: "I master traditional methods before innovating",
+        emoji: "📚",
         scores: {
-          'iberian-lynx': 5,       // Traditional but evolving
-          'manul': 5,              // Values proven methods
-          'andean-mountain-cat': 4, // Respects tradition
-          'flat-headed-cat': 3,    // Specialized traditional
-          'fishing-cat': 3,        // Balance of old and new
-          'clouded-leopard': 2     // Prefers innovation
+          'iberian-lynx': 5,
+          'manul': 5,
+          'andean-mountain-cat': 4,
+          'flat-headed-cat': 3,
+          'fishing-cat': 3,
+          'clouded-leopard': 2
         }
       }
     ]
