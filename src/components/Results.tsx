@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { WildcatResult, Question, WildcatType } from '@/types/quiz';
-import { ShareIcon, HeartIcon, StarIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, StarIcon } from '@heroicons/react/24/solid';
 import { wildcatResults, questions } from '@/lib/quizData';
 
 const wildcatImages = {
@@ -488,17 +488,19 @@ export default function Results({ result, answers, onRetakeQuiz, onShare }: Resu
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-4">
             <button
               onClick={onShare}
-              className="btn-secondary flex-1 inline-flex items-center justify-center"
+              className="w-full py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-lg hover:from-primary-700 hover:to-primary-600 transition-all duration-300 transform hover:scale-102 shadow-lg hover:shadow-xl"
             >
-              <ShareIcon className="w-5 h-5 mr-2" />
-              Share Results
+              <div className="flex items-center justify-center">
+                <StarIcon className="w-6 h-6 mr-3 text-yellow-300 animate-pulse" />
+                <span className="text-lg font-medium">Share Your Wildcat Twin!</span>
+              </div>
             </button>
             <button
               onClick={onRetakeQuiz}
-              className="btn-primary flex-1"
+              className="btn-secondary w-full"
             >
               Retake Quiz
             </button>
