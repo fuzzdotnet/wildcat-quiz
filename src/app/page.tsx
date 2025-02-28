@@ -15,7 +15,7 @@ export default function Home() {
             </h1>
             
             <p className="text-lg md:text-xl text-primary-600 mb-8">
-              Take this quick quiz to discover your wildcat twin and learn how to help protect these amazing felines.
+              Take this quick quiz to discover your wildcat twin and learn to protect these amazing felines.
             </p>
 
             <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-8">
