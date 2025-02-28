@@ -336,7 +336,7 @@ export const wildcatResults: Record<string, WildcatResult> = {
     conservationOrg: {
       name: 'Iberian Lynx Conservation Programme',
       description: 'This collaborative effort between Spain, Portugal, and conservation organizations has brought the Iberian lynx back from the brink of extinction through breeding programs, habitat protection, and wildlife corridors.',
-      link: 'https://www.lynxexsitu.es'
+      link: 'https://www.lynxexsitu.es/index.php?id=ing'
     },
     imageDescription: 'Side profile of an Iberian lynx showing its distinctive spotted coat, tufted ears, and beard-like facial ruffs in a Mediterranean scrubland setting.'
   },
@@ -348,9 +348,9 @@ export const wildcatResults: Record<string, WildcatResult> = {
     conservationStatus: 'Vulnerable',
     funFact: "The enigmatic clouded leopard is a marvel of evolution, with the longest canine teeth relative to skull size of any modern cat. Their incredible agility and unique ankle joints allow them to climb down trees headfirst and even hang upside down from branches by their hind feet. These remarkable cats are masters of adaptation, equally comfortable in dense forests, misty mountains, and mangrove swamps.",
     conservationOrg: {
-      name: 'Clouded Leopard Project',
+      name: 'Borneo Nature Foundation',
       description: 'This organization conducts crucial research, supports anti-poaching efforts, and works with local communities across Southeast Asia to protect clouded leopards and their forest habitat.',
-      link: 'https://www.cloudedleopard.org'
+      link: 'https://www.borneonaturefoundation.org'
     },
     imageDescription: 'Full-body image of a clouded leopard displaying its distinctive cloud-like coat pattern and long tail, ideally in a tree or forest setting.'
   },
