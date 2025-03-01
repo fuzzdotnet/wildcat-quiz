@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface Subscriber {
   email: string;
@@ -12,19 +13,51 @@ interface Subscriber {
   updatedAt: string;
 }
 
+type SortField = 'email' | 'newsletterOptIn' | 'result' | 'createdAt';
+type SortDirection = 'asc' | 'desc';
+
 export default function AdminSubscribersPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [apiKey, setApiKey] = useState('');
+  const [sortField, setSortField] = useState<SortField>('createdAt');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const router = useRouter();
+
+  const sortSubscribers = (data: Subscriber[]) => {
+    return [...data].sort((a, b) => {
+      if (sortField === 'createdAt') {
+        return sortDirection === 'desc'
+          ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      }
+      
+      const aValue = a[sortField];
+      const bValue = b[sortField];
+      
+      if (sortDirection === 'desc') {
+        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+      } else {
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      }
+    });
+  };
+
+  const handleSort = (field: SortField) => {
+    if (field === sortField) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('desc');
+    }
+  };
 
   const fetchSubscribers = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      // Get API key from localStorage or prompt
       const storedApiKey = localStorage.getItem('adminApiKey') || apiKey;
       if (!storedApiKey) {
         setError('API key is required');
@@ -32,7 +65,6 @@ export default function AdminSubscribersPage() {
         return;
       }
 
-      // Save API key to localStorage
       if (apiKey && apiKey !== localStorage.getItem('adminApiKey')) {
         localStorage.setItem('adminApiKey', apiKey);
       }
@@ -55,7 +87,7 @@ export default function AdminSubscribersPage() {
       }
 
       const data = await response.json();
-      setSubscribers(data.subscribers);
+      setSubscribers(sortSubscribers(data.subscribers));
     } catch (err) {
       setError('Failed to fetch subscribers');
       console.error(err);
@@ -65,7 +97,6 @@ export default function AdminSubscribersPage() {
   };
 
   useEffect(() => {
-    // Check for stored API key
     const storedApiKey = localStorage.getItem('adminApiKey');
     if (storedApiKey) {
       setApiKey(storedApiKey);
@@ -74,6 +105,19 @@ export default function AdminSubscribersPage() {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    setSubscribers(sortSubscribers(subscribers));
+  }, [sortField, sortDirection]);
+
+  const SortIcon = ({ field }: { field: SortField }) => {
+    if (field !== sortField) return null;
+    return sortDirection === 'desc' ? (
+      <ChevronDownIcon className="w-4 h-4 inline-block ml-1" />
+    ) : (
+      <ChevronUpIcon className="w-4 h-4 inline-block ml-1" />
+    );
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -114,10 +158,30 @@ export default function AdminSubscribersPage() {
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="bg-primary-100">
-                      <th className="p-2 text-left border-b">Email</th>
-                      <th className="p-2 text-left border-b">Newsletter</th>
-                      <th className="p-2 text-left border-b">Result</th>
-                      <th className="p-2 text-left border-b">Created</th>
+                      <th 
+                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                        onClick={() => handleSort('email')}
+                      >
+                        Email <SortIcon field="email" />
+                      </th>
+                      <th 
+                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                        onClick={() => handleSort('newsletterOptIn')}
+                      >
+                        Newsletter <SortIcon field="newsletterOptIn" />
+                      </th>
+                      <th 
+                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                        onClick={() => handleSort('result')}
+                      >
+                        Result <SortIcon field="result" />
+                      </th>
+                      <th 
+                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                        onClick={() => handleSort('createdAt')}
+                      >
+                        Created <SortIcon field="createdAt" />
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -129,7 +193,7 @@ export default function AdminSubscribersPage() {
                         </td>
                         <td className="p-2 border-b">{subscriber.result}</td>
                         <td className="p-2 border-b">
-                          {new Date(subscriber.createdAt).toLocaleString()}
+                          {new Date(subscriber.createdAt).toISOString().replace('T', ' ').slice(0, 19) + ' UTC'}
                         </td>
                       </tr>
                     ))}
