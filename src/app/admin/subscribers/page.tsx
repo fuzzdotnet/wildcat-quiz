@@ -19,15 +19,14 @@ type SortDirection = 'asc' | 'desc';
 
 function convertToCSV(subscribers: Subscriber[]): string {
   // Define CSV headers
-  const headers = ['Email', 'Newsletter Opt-in', 'Quiz Result', 'Created At (UTC)', 'Added to Substack'];
+  const headers = ['Email', 'Newsletter Opt-in', 'Quiz Result', 'Created At (UTC)'];
   
   // Convert subscribers to CSV rows
   const rows = subscribers.map(subscriber => [
     subscriber.email,
     subscriber.newsletterOptIn ? 'Yes' : 'No',
     subscriber.result,
-    new Date(subscriber.createdAt).toISOString().replace('T', ' ').slice(0, 19),
-    subscriber.addedToSubstack ? 'Yes' : 'No'
+    new Date(subscriber.createdAt).toISOString().replace('T', ' ').slice(0, 19)
   ]);
   
   // Combine headers and rows
