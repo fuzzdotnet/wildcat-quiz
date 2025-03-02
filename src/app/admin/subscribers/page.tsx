@@ -11,10 +11,46 @@ interface Subscriber {
   result: string;
   createdAt: string;
   updatedAt: string;
+  addedToSubstack?: boolean;
 }
 
-type SortField = 'email' | 'newsletterOptIn' | 'result' | 'createdAt';
+type SortField = 'email' | 'newsletterOptIn' | 'result' | 'createdAt' | 'addedToSubstack';
 type SortDirection = 'asc' | 'desc';
+
+function convertToCSV(subscribers: Subscriber[]): string {
+  // Define CSV headers
+  const headers = ['Email', 'Newsletter Opt-in', 'Quiz Result', 'Created At (UTC)', 'Added to Substack'];
+  
+  // Convert subscribers to CSV rows
+  const rows = subscribers.map(subscriber => [
+    subscriber.email,
+    subscriber.newsletterOptIn ? 'Yes' : 'No',
+    subscriber.result,
+    new Date(subscriber.createdAt).toISOString().replace('T', ' ').slice(0, 19),
+    subscriber.addedToSubstack ? 'Yes' : 'No'
+  ]);
+  
+  // Combine headers and rows
+  return [
+    headers.join(','),
+    ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+  ].join('\n');
+}
+
+function downloadCSV(csvContent: string, filename: string) {
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  if (link.download !== undefined) {
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+}
 
 export default function AdminSubscribersPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
@@ -27,14 +63,18 @@ export default function AdminSubscribersPage() {
 
   const sortSubscribers = (data: Subscriber[]) => {
     return [...data].sort((a, b) => {
+      const aValue = a[sortField];
+      const bValue = b[sortField];
+      
       if (sortField === 'createdAt') {
         return sortDirection === 'desc'
           ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       }
-      
-      const aValue = a[sortField];
-      const bValue = b[sortField];
+
+      if (aValue === undefined && bValue === undefined) return 0;
+      if (aValue === undefined) return sortDirection === 'desc' ? 1 : -1;
+      if (bValue === undefined) return sortDirection === 'desc' ? -1 : 1;
       
       if (sortDirection === 'desc') {
         return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
@@ -119,6 +159,16 @@ export default function AdminSubscribersPage() {
     );
   };
 
+  const handleDownloadCSV = () => {
+    if (subscribers.length === 0) return;
+    
+    const csvContent = convertToCSV(subscribers);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    const filename = `wildcat-quiz-subscribers-${timestamp}.csv`;
+    
+    downloadCSV(csvContent, filename);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -142,6 +192,13 @@ export default function AdminSubscribersPage() {
                 className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700"
               >
                 Fetch Subscribers
+              </button>
+              <button
+                onClick={handleDownloadCSV}
+                disabled={subscribers.length === 0}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Download CSV
               </button>
             </div>
 
