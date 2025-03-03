@@ -11,8 +11,10 @@ function FacebookPixelContent() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    // Only track custom events here, not page views
-    // Page views are handled by the Script component
+    // Track pageview on route change
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'PageView');
+    }
   }, [pathname, searchParams]);
 
   return null;
@@ -38,7 +40,6 @@ export default function FacebookPixel() {
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '${FACEBOOK_PIXEL_ID}');
-            fbq('track', 'PageView');
           `
         }}
       />
