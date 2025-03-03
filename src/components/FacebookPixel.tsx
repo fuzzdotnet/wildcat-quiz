@@ -4,6 +4,8 @@ import Script from 'next/script'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, Suspense } from 'react'
 
+const FACEBOOK_PIXEL_ID = '1264145771547881';
+
 function FacebookPixelContent() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -29,24 +31,17 @@ export default function FacebookPixel() {
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
-            window.fbq = function() {
-              window.fbq.callMethod ? window.fbq.callMethod.apply(window.fbq, arguments) : window.fbq.queue.push(arguments)
-            };
-            if (!window._fbq) window._fbq = window.fbq;
-            window.fbq.push = window.fbq;
-            window.fbq.loaded = true;
-            window.fbq.version = '2.0';
-            window.fbq.queue = [];
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '${FACEBOOK_PIXEL_ID}');
+            fbq('track', 'PageView');
           `
-        }}
-      />
-      <Script
-        id="fb-pixel"
-        strategy="afterInteractive"
-        src="https://connect.facebook.net/en_US/fbevents.js"
-        onLoad={() => {
-          (window as any).fbq('init', process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID);
-          (window as any).fbq('track', 'PageView');
         }}
       />
       <noscript>
@@ -54,7 +49,7 @@ export default function FacebookPixel() {
           height="1" 
           width="1" 
           style={{ display: 'none' }} 
-          src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1`}
+          src={`https://www.facebook.com/tr?id=${FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1`}
           alt=""
         />
       </noscript>
