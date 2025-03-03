@@ -11,10 +11,8 @@ function FacebookPixelContent() {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    // Track pageview on route change
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'PageView');
-    }
+    // Only track custom events here, not page views
+    // Page views are handled by the Script component
   }, [pathname, searchParams]);
 
   return null;
