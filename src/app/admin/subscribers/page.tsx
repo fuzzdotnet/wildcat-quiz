@@ -121,24 +121,29 @@ export default function AdminSubscribersPage() {
         localStorage.setItem('adminApiKey', apiKey);
       }
 
-      const response = await fetch(`/api/admin/subscribers?page=${page}&limit=${pagination.limit}`, {
+      const response = await fetch(`/api/admin/subscribers?page=${page}&limit=50`, {
         headers: {
           Authorization: `Bearer ${storedApiKey}`,
         },
       });
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
         if (response.status === 401) {
           setError('Invalid API key');
           localStorage.removeItem('adminApiKey');
         } else {
-          setError(`Error: ${response.status} ${response.statusText}`);
+          setError(errorData.error || `Error: ${response.status} ${response.statusText}`);
         }
         setLoading(false);
         return;
       }
 
       const data = await response.json();
+      if (!data.subscribers || !data.pagination) {
+        throw new Error('Invalid response format from server');
+      }
+      
       setSubscribers(sortSubscribers(data.subscribers));
       setPagination({
         total: data.pagination.total,
@@ -147,8 +152,8 @@ export default function AdminSubscribersPage() {
         totalPages: data.pagination.totalPages
       });
     } catch (err) {
-      setError('Failed to fetch subscribers');
-      console.error(err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch subscribers');
+      console.error('Error fetching subscribers:', err);
     } finally {
       setLoading(false);
     }
