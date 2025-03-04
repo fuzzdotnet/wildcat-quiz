@@ -14,6 +14,13 @@ interface Subscriber {
   addedToSubstack?: boolean;
 }
 
+interface PaginationInfo {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 type SortField = 'email' | 'newsletterOptIn' | 'result' | 'createdAt' | 'addedToSubstack';
 type SortDirection = 'asc' | 'desc';
 
@@ -58,6 +65,12 @@ export default function AdminSubscribersPage() {
   const [apiKey, setApiKey] = useState('');
   const [sortField, setSortField] = useState<SortField>('createdAt');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    total: 0,
+    page: 1,
+    limit: 50,
+    totalPages: 1
+  });
   const router = useRouter();
 
   const sortSubscribers = (data: Subscriber[]) => {
@@ -92,7 +105,7 @@ export default function AdminSubscribersPage() {
     }
   };
 
-  const fetchSubscribers = async () => {
+  const fetchSubscribers = async (page: number = 1) => {
     try {
       setLoading(true);
       setError(null);
@@ -108,7 +121,7 @@ export default function AdminSubscribersPage() {
         localStorage.setItem('adminApiKey', apiKey);
       }
 
-      const response = await fetch('/api/admin/subscribers', {
+      const response = await fetch(`/api/admin/subscribers?page=${page}&limit=${pagination.limit}`, {
         headers: {
           Authorization: `Bearer ${storedApiKey}`,
         },
@@ -127,6 +140,12 @@ export default function AdminSubscribersPage() {
 
       const data = await response.json();
       setSubscribers(sortSubscribers(data.subscribers));
+      setPagination({
+        total: data.total,
+        page: data.page,
+        limit: data.limit,
+        totalPages: data.totalPages
+      });
     } catch (err) {
       setError('Failed to fetch subscribers');
       console.error(err);
@@ -139,7 +158,7 @@ export default function AdminSubscribersPage() {
     const storedApiKey = localStorage.getItem('adminApiKey');
     if (storedApiKey) {
       setApiKey(storedApiKey);
-      fetchSubscribers();
+      fetchSubscribers(1);
     } else {
       setLoading(false);
     }
@@ -187,7 +206,7 @@ export default function AdminSubscribersPage() {
                 className="flex-grow p-2 border border-gray-300 rounded"
               />
               <button
-                onClick={fetchSubscribers}
+                onClick={() => fetchSubscribers(1)}
                 className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700"
               >
                 Fetch Subscribers
@@ -210,55 +229,78 @@ export default function AdminSubscribersPage() {
             {loading ? (
               <div className="text-center py-8">Loading...</div>
             ) : subscribers.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="bg-primary-100">
-                      <th 
-                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
-                        onClick={() => handleSort('email')}
-                      >
-                        Email <SortIcon field="email" />
-                      </th>
-                      <th 
-                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
-                        onClick={() => handleSort('newsletterOptIn')}
-                      >
-                        Newsletter <SortIcon field="newsletterOptIn" />
-                      </th>
-                      <th 
-                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
-                        onClick={() => handleSort('result')}
-                      >
-                        Result <SortIcon field="result" />
-                      </th>
-                      <th 
-                        className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
-                        onClick={() => handleSort('createdAt')}
-                      >
-                        Created <SortIcon field="createdAt" />
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {subscribers.map((subscriber, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="p-2 border-b">{subscriber.email}</td>
-                        <td className="p-2 border-b">
-                          {subscriber.newsletterOptIn ? 'Yes' : 'No'}
-                        </td>
-                        <td className="p-2 border-b">{subscriber.result}</td>
-                        <td className="p-2 border-b">
-                          {new Date(subscriber.createdAt).toISOString().replace('T', ' ').slice(0, 19) + ' UTC'}
-                        </td>
+              <>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-primary-100">
+                        <th 
+                          className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                          onClick={() => handleSort('email')}
+                        >
+                          Email <SortIcon field="email" />
+                        </th>
+                        <th 
+                          className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                          onClick={() => handleSort('newsletterOptIn')}
+                        >
+                          Newsletter <SortIcon field="newsletterOptIn" />
+                        </th>
+                        <th 
+                          className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                          onClick={() => handleSort('result')}
+                        >
+                          Result <SortIcon field="result" />
+                        </th>
+                        <th 
+                          className="p-2 text-left border-b cursor-pointer hover:bg-primary-200"
+                          onClick={() => handleSort('createdAt')}
+                        >
+                          Created <SortIcon field="createdAt" />
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {subscribers.map((subscriber, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="p-2 border-b">{subscriber.email}</td>
+                          <td className="p-2 border-b">
+                            {subscriber.newsletterOptIn ? 'Yes' : 'No'}
+                          </td>
+                          <td className="p-2 border-b">{subscriber.result}</td>
+                          <td className="p-2 border-b">
+                            {new Date(subscriber.createdAt).toLocaleString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-4 flex justify-between items-center">
+                  <div className="text-sm text-gray-600">
+                    Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} subscribers
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => fetchSubscribers(pagination.page - 1)}
+                      disabled={pagination.page === 1}
+                      className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      onClick={() => fetchSubscribers(pagination.page + 1)}
+                      disabled={pagination.page === pagination.totalPages}
+                      className="px-3 py-1 border rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </>
             ) : (
-              <div className="text-center py-8 text-gray-500">
-                {apiKey ? 'No subscribers found' : 'Enter API key to view subscribers'}
+              <div className="text-center py-8 text-gray-600">
+                No subscribers found
               </div>
             )}
           </div>
