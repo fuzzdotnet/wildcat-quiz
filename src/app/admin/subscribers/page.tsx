@@ -141,10 +141,10 @@ export default function AdminSubscribersPage() {
       const data = await response.json();
       setSubscribers(sortSubscribers(data.subscribers));
       setPagination({
-        total: data.total,
-        page: data.page,
-        limit: data.limit,
-        totalPages: data.totalPages
+        total: data.pagination.total,
+        page: data.pagination.page,
+        limit: data.pagination.limit,
+        totalPages: data.pagination.totalPages
       });
     } catch (err) {
       setError('Failed to fetch subscribers');
