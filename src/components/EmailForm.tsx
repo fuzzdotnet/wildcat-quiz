@@ -22,6 +22,8 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
     setError('');
     setIsSubmitting(true);
 
+    console.log('Submitting form with:', { email, newsletterOptIn, result: result.type });
+
     try {
       const response = await fetch('/api/subscribe', {
         method: 'POST',
@@ -35,7 +37,9 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         }),
       });
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to subscribe');
@@ -50,6 +54,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
 
       onSubmit(email, newsletterOptIn);
     } catch (err) {
+      console.error('Form submission error:', err);
       setError(err instanceof Error ? err.message : 'Failed to subscribe');
       setIsSubmitting(false);
     }
@@ -80,6 +85,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
               className="input-field"
               aria-label="Email address"
               disabled={isSubmitting}
+              required
             />
             {error && (
               <p className="mt-2 text-red-600 text-sm">{error}</p>
@@ -90,9 +96,10 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             <div className="flex items-center h-5">
               <input
                 type="checkbox"
-                checked={true}
-                className="h-4 w-4 rounded border-gray-300 text-gray-400 cursor-not-allowed"
-                disabled={true}
+                checked={newsletterOptIn}
+                onChange={(e) => setNewsletterOptIn(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                disabled={isSubmitting}
               />
             </div>
             <div className="ml-3">
