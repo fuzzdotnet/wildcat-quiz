@@ -49,9 +49,33 @@ async function syncToBeehiiv(email: string, result: WildcatType) {
     const apiKey = process.env.BEEHIIV_API_KEY;
 
     if (!publicationId || !apiKey) {
-      console.error('Missing Beehiiv configuration');
+      console.error('Missing Beehiiv configuration:', { publicationId, hasApiKey: !!apiKey });
       return false;
     }
+
+    console.log('Attempting to sync to Beehiiv:', {
+      email,
+      result,
+      publicationId,
+      hasApiKey: !!apiKey
+    });
+
+    const requestBody = {
+      email,
+      reactivate_existing: false,
+      send_welcome_email: true,
+      utm_source: 'CatQuiz',
+      utm_medium: 'organic',
+      utm_campaign: 'wildcat_quiz',
+      custom_fields: [
+        {
+          name: 'Wildcat Result',
+          value: result
+        }
+      ]
+    };
+
+    console.log('Beehiiv request body:', JSON.stringify(requestBody, null, 2));
 
     const response = await fetch(`https://api.beehiiv.com/v2/publications/${publicationId}/subscriptions`, {
       method: 'POST',
@@ -59,25 +83,15 @@ async function syncToBeehiiv(email: string, result: WildcatType) {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email,
-        reactivate_existing: false,
-        send_welcome_email: true,
-        utm_source: 'CatQuiz',
-        utm_medium: 'organic',
-        utm_campaign: 'wildcat_quiz',
-        custom_fields: [
-          {
-            name: 'Wildcat Result',
-            value: result
-          }
-        ]
-      }),
+      body: JSON.stringify(requestBody),
     });
 
+    console.log('Beehiiv response status:', response.status);
+    const responseData = await response.json();
+    console.log('Beehiiv response data:', responseData);
+
     if (!response.ok) {
-      const error = await response.json();
-      console.error('Beehiiv API error:', error);
+      console.error('Beehiiv API error:', responseData);
       return false;
     }
 
@@ -91,9 +105,11 @@ async function syncToBeehiiv(email: string, result: WildcatType) {
 export async function POST(request: Request) {
   try {
     const ip = getIP(request);
+    console.log('Received subscription request from IP:', ip);
 
     // Check rate limit
     if (isRateLimited(ip)) {
+      console.log('Rate limit exceeded for IP:', ip);
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
         { status: 429 }
@@ -115,6 +131,7 @@ export async function POST(request: Request) {
 
     // Validate newsletterOptIn
     const newsletterOptIn = Boolean(body.newsletterOptIn);
+    console.log('Newsletter opt-in:', newsletterOptIn);
 
     // Validate result
     if (!validateResult(body.result)) {
@@ -140,6 +157,8 @@ export async function POST(request: Request) {
       updatedAt: timestamp,
     };
 
+    console.log('Storing subscriber data:', subscriber);
+
     // Store the subscriber data in Vercel Blob Storage
     const { url } = await put(blobName, JSON.stringify(subscriber), {
       contentType: 'application/json',
@@ -151,7 +170,9 @@ export async function POST(request: Request) {
     // Sync to Beehiiv if newsletter opt-in is true
     let beehiivSync = false;
     if (newsletterOptIn) {
+      console.log('Attempting to sync to Beehiiv...');
       beehiivSync = await syncToBeehiiv(email, result);
+      console.log('Beehiiv sync result:', beehiivSync);
     }
 
     return NextResponse.json(
