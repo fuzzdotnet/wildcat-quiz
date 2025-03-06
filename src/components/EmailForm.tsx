@@ -67,7 +67,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         </h2>
         
         <p className="text-primary-600 mb-6 text-center">
-          Enter your email to reveal which endangered wildcat shares your personality and get updates about cool animals.
+          Enter your e-mail to discover your wildcat twin and join wildlife adventures from the field.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -97,7 +97,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             </div>
             <div className="ml-3">
               <div className="text-sm text-primary-700">
-                <strong>Join FUZZ!</strong> Hey! I'm Dan Fletcher, and I send stories about amazing animals and their protectors straight from the field to your inbox. Join me for wild adventures, surprising animal facts, and conservation wins from around the globe. Always free, never spammy, just genuine nature stories three times a week.
+                <strong>Join FUZZ!</strong> I'm Dan Fletcher, reporting from the world's wildest places. I track rare cats across Mongolia's frozen steppe, document conservation victories in Africa's protected parks, and share stories of animal resilience you won't find elsewhere. Always free, never spammy, just genuine adventures and surprising animal stories in your inbox three times a week.
               </div>
             </div>
           </div>
