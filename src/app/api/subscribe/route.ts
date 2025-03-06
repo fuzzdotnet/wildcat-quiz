@@ -52,16 +52,21 @@ interface BouncerResponse {
   disposable: boolean;
   free: boolean;
   reason: string | null;
+  score?: number;
 }
 
-async function validateEmailWithBouncer(email: string): Promise<{ valid: boolean; reason?: string }> {
+async function validateEmailWithBouncer(email: string): Promise<{ 
+  valid: boolean; 
+  reason?: string;
+  sendToBeehiiv: boolean;
+}> {
   try {
     const apiKey = process.env.BOUNCER_API_KEY;
     
     if (!apiKey) {
       console.error('Missing Bouncer API key');
       // If no API key, assume email is valid to avoid blocking users
-      return { valid: true };
+      return { valid: true, sendToBeehiiv: true };
     }
 
     console.log(`Validating email with Bouncer: ${email}`);
@@ -76,23 +81,44 @@ async function validateEmailWithBouncer(email: string): Promise<{ valid: boolean
     if (!response.ok) {
       console.error(`Bouncer API error: ${response.status} ${response.statusText}`);
       // If API call fails, assume email is valid to avoid blocking users
-      return { valid: true };
+      return { valid: true, sendToBeehiiv: true };
     }
 
     const data = await response.json() as BouncerResponse;
     console.log('Bouncer response:', data);
 
-    // Consider the email valid if status is "deliverable"
-    const isValid = data.status === 'deliverable';
+    // Check if email is valid (can receive emails)
+    const isValid = data.status === 'deliverable' || data.status === 'risky';
+    
+    // Determine if we should send to Beehiiv
+    // Only send if deliverable and toxicity score is below 60 (or no score available)
+    const sendToBeehiiv = data.status === 'deliverable' && (!data.score || data.score < 60);
+    
+    if (!isValid) {
+      return { 
+        valid: false, 
+        sendToBeehiiv: false,
+        reason: `Email validation failed: ${data.reason || data.status}`
+      };
+    }
+    
+    if (data.status === 'risky') {
+      console.log(`Risky email detected: ${email}. Will show results but skip Beehiiv sync.`);
+    }
+    
+    if (data.score && data.score >= 60) {
+      console.log(`High toxicity score (${data.score}) for email: ${email}. Will show results but skip Beehiiv sync.`);
+    }
     
     return { 
-      valid: isValid,
-      reason: isValid ? undefined : `Email validation failed: ${data.reason || data.status}`
+      valid: true,
+      sendToBeehiiv,
+      reason: !sendToBeehiiv ? 'Email flagged as risky or high toxicity' : undefined
     };
   } catch (error) {
     console.error('Error validating email with Bouncer:', error);
     // If there's an error, assume email is valid to avoid blocking users
-    return { valid: true };
+    return { valid: true, sendToBeehiiv: true };
   }
 }
 
@@ -230,18 +256,21 @@ export async function POST(request: Request) {
 
     console.log(`Subscriber data stored at: ${url}`);
 
-    // Sync to Beehiiv if newsletter opt-in is true
+    // Sync to Beehiiv if newsletter opt-in is true AND email is safe to send
     let beehiivSync = false;
-    if (newsletterOptIn) {
+    if (newsletterOptIn && emailValidation.sendToBeehiiv) {
       console.log('Attempting to sync to Beehiiv...');
       beehiivSync = await syncToBeehiiv(email, result);
       console.log('Beehiiv sync result:', beehiivSync);
+    } else if (newsletterOptIn && !emailValidation.sendToBeehiiv) {
+      console.log('Skipping Beehiiv sync due to email validation flags:', emailValidation.reason);
     }
 
     return NextResponse.json(
       { 
         message: 'Subscription successful',
-        beehiivSync
+        beehiivSync,
+        emailQuality: emailValidation.sendToBeehiiv ? 'good' : 'flagged'
       },
       { status: 200 }
     );
