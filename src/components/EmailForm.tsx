@@ -13,7 +13,7 @@ interface EmailFormProps {
 
 export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) {
   const [email, setEmail] = useState('');
-  const [newsletterOptIn, setNewsletterOptIn] = useState(true);
+  const [newsletterOptIn] = useState(true);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -32,7 +32,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         },
         body: JSON.stringify({
           email,
-          newsletterOptIn,
+          newsletterOptIn: true,
           result: result.type,
         }),
       });
@@ -52,7 +52,7 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         value: result.type,
       });
 
-      onSubmit(email, newsletterOptIn);
+      onSubmit(email, true);
     } catch (err) {
       console.error('Form submission error:', err);
       setError(err instanceof Error ? err.message : 'Failed to subscribe');
@@ -96,10 +96,9 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
             <div className="flex items-center h-5">
               <input
                 type="checkbox"
-                checked={newsletterOptIn}
-                onChange={(e) => setNewsletterOptIn(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                disabled={isSubmitting}
+                checked={true}
+                className="h-4 w-4 rounded border-gray-300 text-gray-400 cursor-not-allowed"
+                disabled={true}
               />
             </div>
             <div className="ml-3">
