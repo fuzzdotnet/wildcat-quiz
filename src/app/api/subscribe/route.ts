@@ -43,6 +43,59 @@ interface Subscriber {
   updatedAt: string;
 }
 
+interface BouncerResponse {
+  status: string;
+  email: string;
+  account: string;
+  domain: string;
+  role: boolean;
+  disposable: boolean;
+  free: boolean;
+  reason: string | null;
+}
+
+async function validateEmailWithBouncer(email: string): Promise<{ valid: boolean; reason?: string }> {
+  try {
+    const apiKey = process.env.BOUNCER_API_KEY;
+    
+    if (!apiKey) {
+      console.error('Missing Bouncer API key');
+      // If no API key, assume email is valid to avoid blocking users
+      return { valid: true };
+    }
+
+    console.log(`Validating email with Bouncer: ${email}`);
+    
+    const response = await fetch(`https://api.usebouncer.com/v1/email/verify?email=${encodeURIComponent(email)}`, {
+      method: 'GET',
+      headers: {
+        'x-api-key': apiKey,
+      },
+    });
+
+    if (!response.ok) {
+      console.error(`Bouncer API error: ${response.status} ${response.statusText}`);
+      // If API call fails, assume email is valid to avoid blocking users
+      return { valid: true };
+    }
+
+    const data = await response.json() as BouncerResponse;
+    console.log('Bouncer response:', data);
+
+    // Consider the email valid if status is "deliverable"
+    const isValid = data.status === 'deliverable';
+    
+    return { 
+      valid: isValid,
+      reason: isValid ? undefined : `Email validation failed: ${data.reason || data.status}`
+    };
+  } catch (error) {
+    console.error('Error validating email with Bouncer:', error);
+    // If there's an error, assume email is valid to avoid blocking users
+    return { valid: true };
+  }
+}
+
 async function syncToBeehiiv(email: string, result: WildcatType) {
   try {
     const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
@@ -125,6 +178,16 @@ export async function POST(request: Request) {
       console.error('Invalid email format:', email);
       return NextResponse.json(
         { error: 'Invalid email format' },
+        { status: 400 }
+      );
+    }
+
+    // Validate email with Bouncer
+    const emailValidation = await validateEmailWithBouncer(email);
+    if (!emailValidation.valid) {
+      console.error('Email validation failed:', emailValidation.reason);
+      return NextResponse.json(
+        { error: emailValidation.reason || 'Invalid email address' },
         { status: 400 }
       );
     }
