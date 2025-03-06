@@ -1,52 +1,38 @@
 import { NextResponse } from 'next/server';
-import { LRUCache } from 'lru-cache';
 import { put } from '@vercel/blob';
+import { WildcatType, validateResult } from '@/types/quiz';
 
-// Valid wildcat results
-const VALID_RESULTS = [
-  'manul',
-  'iberian-lynx',
-  'clouded-leopard',
-  'flat-headed-cat',
-  'andean-mountain-cat',
-  'fishing-cat'
-] as const;
-
-type WildcatType = typeof VALID_RESULTS[number];
-
-// Rate limiting configuration
-const rateLimit = {
-  windowMs: 60 * 1000, // 1 minute
-  max: 3 // limit each IP to 3 requests per windowMs
-};
-
-const rateLimiter = new LRUCache({
-  max: 500, // Maximum number of IP addresses to track
-  ttl: rateLimit.windowMs, // Time to live for each entry
-});
-
-function getIP(request: Request) {
-  const xff = request.headers.get('x-forwarded-for');
-  return xff ? xff.split(',')[0] : '127.0.0.1';
-}
+// Rate limiting
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const MAX_REQUESTS = 5; // 5 requests per minute
+const requestTimestamps = new Map<string, number[]>();
 
 function isRateLimited(ip: string): boolean {
-  const tokenCount = rateLimiter.get(ip) as number || 0;
+  const now = Date.now();
+  const timestamps = requestTimestamps.get(ip) || [];
   
-  if (tokenCount >= rateLimit.max) {
+  // Remove timestamps older than the window
+  const recentTimestamps = timestamps.filter(timestamp => now - timestamp < RATE_LIMIT_WINDOW);
+  
+  if (recentTimestamps.length >= MAX_REQUESTS) {
     return true;
   }
-
-  rateLimiter.set(ip, tokenCount + 1);
+  
+  recentTimestamps.push(now);
+  requestTimestamps.set(ip, recentTimestamps);
   return false;
+}
+
+function getIP(request: Request): string {
+  const forwardedFor = request.headers.get('x-forwarded-for');
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0].trim();
+  }
+  return 'unknown';
 }
 
 function sanitizeEmail(email: string): string {
   return email.trim().toLowerCase().slice(0, 254); // RFC 5321
-}
-
-function validateResult(result: unknown): result is WildcatType {
-  return typeof result === 'string' && VALID_RESULTS.includes(result as WildcatType);
 }
 
 interface Subscriber {
@@ -55,6 +41,51 @@ interface Subscriber {
   result: WildcatType;
   createdAt: string;
   updatedAt: string;
+}
+
+async function syncToBeehiiv(email: string, result: WildcatType) {
+  try {
+    const publicationId = process.env.BEEHIIV_PUBLICATION_ID;
+    const apiKey = process.env.BEEHIIV_API_KEY;
+
+    if (!publicationId || !apiKey) {
+      console.error('Missing Beehiiv configuration');
+      return false;
+    }
+
+    const response = await fetch(`https://api.beehiiv.com/v2/publications/${publicationId}/subscriptions`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        reactivate_existing: false,
+        send_welcome_email: true,
+        utm_source: 'CatQuiz',
+        utm_medium: 'organic',
+        utm_campaign: 'wildcat_quiz',
+        custom_fields: [
+          {
+            name: 'Wildcat Result',
+            value: result
+          }
+        ]
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error('Beehiiv API error:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error syncing to Beehiiv:', error);
+    return false;
+  }
 }
 
 export async function POST(request: Request) {
@@ -96,7 +127,6 @@ export async function POST(request: Request) {
     const result = body.result;
 
     // Create a unique filename for this batch of subscribers
-    // We'll use a timestamp-based approach for simplicity
     const now = new Date();
     const timestamp = now.toISOString();
     const blobName = `subscribers/subscriber-${email.replace(/[^a-z0-9]/gi, '-')}-${now.getTime()}.json`;
@@ -113,23 +143,28 @@ export async function POST(request: Request) {
     // Store the subscriber data in Vercel Blob Storage
     const { url } = await put(blobName, JSON.stringify(subscriber), {
       contentType: 'application/json',
-      access: 'public', // Make it public so we can access it
+      access: 'public',
     });
 
     console.log(`Subscriber data stored at: ${url}`);
 
-    // Also store in a manifest file to keep track of all subscribers
-    // In a production app, you might want to implement a more sophisticated
-    // approach to manage the manifest file, especially for concurrent writes
-    
+    // Sync to Beehiiv if newsletter opt-in is true
+    let beehiivSync = false;
+    if (newsletterOptIn) {
+      beehiivSync = await syncToBeehiiv(email, result);
+    }
+
     return NextResponse.json(
-      { message: 'Subscription successful' },
+      { 
+        message: 'Subscription successful',
+        beehiivSync
+      },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Subscription error:', error);
+    console.error('Error processing subscription:', error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Failed to save subscription' },
+      { error: error instanceof Error ? error.message : 'Failed to process subscription' },
       { status: 500 }
     );
   }
