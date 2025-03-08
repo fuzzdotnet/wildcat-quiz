@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { WildcatResult } from '@/types/quiz';
 import { trackFBEvent } from '@/lib/analytics';
@@ -12,31 +12,7 @@ interface EmailFormProps {
 }
 
 export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) {
-  const [embedLoaded, setEmbedLoaded] = useState(true);
   const [embedError, setEmbedError] = useState(false);
-
-  // Check if the embed is loading properly
-  useEffect(() => {
-    // Set a timeout to check if the embed has loaded
-    const timer = setTimeout(() => {
-      // If we haven't detected a load after 3 seconds, show fallback
-      const iframe = document.querySelector('iframe');
-      if (iframe) {
-        try {
-          // Try to access iframe content - if it fails, it might be due to CORS
-          // This is just a heuristic and may not be reliable
-          if (!iframe.contentWindow) {
-            setEmbedError(true);
-          }
-        } catch (e) {
-          // If we get an error, the iframe might not be loading properly
-          setEmbedError(true);
-        }
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleGetResults = () => {
     // Track the view event with Facebook Pixel
@@ -66,34 +42,27 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
           But before we reveal your wildlife twin, consider joining FUZZ's conservation newsletter.
         </p>
 
-        {!embedError ? (
-          <div className="mb-6 flex justify-center">
-            <iframe 
-              src="https://www.fuzz.net/embed" 
-              width="480" 
-              height="150" 
-              style={{ border: '1px solid #EEE', background: 'white' }} 
-              frameBorder="0" 
-              scrolling="no"
-              title="FUZZ Newsletter Signup"
-              onError={() => setEmbedError(true)}
-            />
-          </div>
-        ) : (
-          <div className="mb-6 text-center">
-            <p className="text-primary-700 mb-2">
-              Join FUZZ's newsletter for wildlife adventures from the field!
-            </p>
-            <a 
+        <div className="mb-6 flex flex-col items-center">
+          <iframe 
+            src="https://www.fuzz.net/embed" 
+            width="480" 
+            height="320" 
+            style={{ border: '1px solid #EEE', background: 'white' }} 
+            frameBorder="0" 
+            scrolling="no"
+            title="FUZZ Newsletter Signup"
+            allow="clipboard-write"
+            sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
+          />
+          <p className="mt-2 text-sm text-primary-600">
+            If the form doesn't appear, you can also <a 
               href="https://www.fuzz.net" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-primary-600 underline hover:text-primary-800"
-            >
-              Subscribe on fuzz.net
-            </a>
-          </div>
-        )}
+              className="underline hover:text-primary-800"
+            >subscribe here</a>.
+          </p>
+        </div>
 
         <div className="flex flex-col items-center gap-4">
           <button
