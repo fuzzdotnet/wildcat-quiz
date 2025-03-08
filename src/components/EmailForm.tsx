@@ -69,14 +69,13 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
         {!embedError ? (
           <div className="mb-6 flex justify-center">
             <iframe 
-              src="https://fuzz.substack.com/embed" 
-              width="100%" 
+              src="https://www.fuzz.net/embed" 
+              width="480" 
               height="150" 
-              style={{ border: '1px solid #EEE', background: 'white', maxWidth: '480px' }} 
+              style={{ border: '1px solid #EEE', background: 'white' }} 
               frameBorder="0" 
               scrolling="no"
               title="FUZZ Newsletter Signup"
-              className="mx-auto"
               onError={() => setEmbedError(true)}
             />
           </div>
@@ -86,12 +85,12 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
               Join FUZZ's newsletter for wildlife adventures from the field!
             </p>
             <a 
-              href="https://fuzz.substack.com" 
+              href="https://www.fuzz.net" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-primary-600 underline hover:text-primary-800"
             >
-              Subscribe on Substack
+              Subscribe on fuzz.net
             </a>
           </div>
         )}
