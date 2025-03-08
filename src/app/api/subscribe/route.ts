@@ -142,7 +142,7 @@ async function syncToBeehiiv(email: string, result: WildcatType) {
     const requestBody = {
       email,
       reactivate_existing: false,
-      send_welcome_email: true,
+      send_welcome_email: false,
       utm_source: 'CatQuiz',
       utm_medium: 'organic',
       utm_campaign: 'wildcat_quiz',
