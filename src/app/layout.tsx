@@ -65,6 +65,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <head>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; frame-src 'self' https://www.fuzz.net; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.facebook.com;"
+        />
         <GoogleAnalytics />
         <FacebookPixel />
       </head>
