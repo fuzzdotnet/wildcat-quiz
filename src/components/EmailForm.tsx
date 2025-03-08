@@ -34,9 +34,23 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
           Your Wildcat Match Is Ready!
         </h2>
         
-        <p className="text-primary-600 mb-6 text-center">
-          But before we reveal your wildlife twin, consider joining FUZZ's conservation newsletter.
-        </p>
+        <div className="text-primary-600 mb-6">
+          <p className="mb-4 text-center">
+            Before discovering your wildlife twin, why not join the FUZZ family? Our free newsletter delivers fascinating conservation stories, stunning wildlife photography, and adventures from the field straight to your inbox a few times a week.
+          </p>
+          
+          <p className="font-medium mb-2">What to expect:</p>
+          <ul className="list-disc pl-5 mb-4 space-y-1">
+            <li>Incredible wildlife encounters from the world's wildest places</li>
+            <li>Conservation success stories you won't hear elsewhere</li>
+            <li>Beautiful photography from remote wilderness areas</li>
+            <li>A community that helps fund real conservation projects</li>
+          </ul>
+          
+          <p className="text-sm italic text-center">
+            No pressure - the personality quiz works either way, and we promise never to spam you. Just thoughtful stories about animals and the people working to protect them.
+          </p>
+        </div>
 
         <div className="mb-6 flex justify-center overflow-x-auto">
           <iframe src="https://www.fuzz.net/embed" width="480" height="150" style={{ border: '1px solid #EEE', background: 'white' }} frameBorder="0" scrolling="no"></iframe>
