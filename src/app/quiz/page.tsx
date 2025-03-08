@@ -121,8 +121,7 @@ export default function QuizPage() {
   };
 
   const handleEmailSubmit = (email: string, newsletterOptIn: boolean) => {
-    dispatch({ type: 'SET_EMAIL', email });
-    dispatch({ type: 'SET_NEWSLETTER_OPT_IN', optIn: newsletterOptIn });
+    // We're not collecting emails directly anymore, just calculate the result
     const result = calculateResult(state.answers);
     dispatch({ type: 'SET_RESULT', result });
   };
