@@ -38,8 +38,23 @@ export default function EmailForm({ onSubmit, onSkip, result }: EmailFormProps) 
           But before we reveal your wildlife twin, consider joining FUZZ's conservation newsletter.
         </p>
 
-        <div className="mb-6">
-          <iframe src="https://www.fuzz.net/embed" width="480" height="150" style={{ border: '1px solid #EEE', background: 'white' }} frameBorder="0" scrolling="no"></iframe>
+        <div className="mb-6 text-center">
+          <div className="p-4 border border-primary-100 bg-primary-50 rounded-lg">
+            <p className="text-primary-800 font-medium mb-2">
+              Join FUZZ's Newsletter
+            </p>
+            <p className="text-primary-600 text-sm mb-4">
+              Get wildlife adventures from the field delivered straight to your inbox.
+            </p>
+            <a 
+              href="https://www.fuzz.net" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-700 transition-colors"
+            >
+              Subscribe to FUZZ
+            </a>
+          </div>
         </div>
 
         <div className="flex flex-col items-center gap-4">
